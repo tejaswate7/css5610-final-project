@@ -22,6 +22,9 @@ const Navigation = () => {
                     <Link className="nav-link" to="/auth">
                         SIGN IN
                     </Link>
+                    <Link className="nav-link" to="/profile">
+                        PROFILE
+                    </Link>
                     <CartIcon />
                 </div>
                 {/*<CartDropdown />*/}
