@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"
+import { getFirestore, doc, getDoc, addDoc, getDocs, setDoc, collection } from "firebase/firestore"
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -74,4 +74,18 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
         return
     }
     return await signInWithEmailAndPassword(auth, email, password);
+}
+
+export const createReviewsDoc = async () => {
+    const userCollectionRef = collection(db, "users")
+    const data = await getDocs(userCollectionRef)
+    console.log(data.docs.map((doc) => ({
+        ...doc.data(), id: doc.id
+    })))
+    const reviewsDocumentRef = collection(db, 'reviews')
+    const res = await addDoc(reviewsDocumentRef, {
+        title: "Hello",
+        Name: "lol"
+    })
+    console.log(res)
 }
