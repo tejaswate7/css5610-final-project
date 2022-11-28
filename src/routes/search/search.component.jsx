@@ -1,17 +1,30 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {findCocktailBySearchTermThunk} from "../../thunks/cocktail-thunk";
+import { useNavigate, createSearchParams, useSearchParams } from "react-router-dom";
 
 import "../search/search.styles.scss";
 
 
 const Search = () => {
-    const [searchTerm, setSearchTerm] = useState('margarita')
+    const [searchTerm, setSearchTerm] = useState('')
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const params = {
+        name: searchTerm
+    };
+    const goToSearch = () =>
+        navigate({
+            pathname: '/search',
+            search: `?${createSearchParams(params)}`,
+        });
     const {cocktails, loading} = useSelector((state) => state.cocktail)
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(findCocktailBySearchTermThunk(searchTerm))
-    }, [])
+        setSearchTerm((searchParams.get("name")));
+        console.log(searchParams.get("name"));
+        dispatch(findCocktailBySearchTermThunk(searchParams.get("name")))
+    }, [searchParams])
 
     return(
         <>
@@ -29,6 +42,7 @@ const Search = () => {
                         <button
                             className="btn btn-primary float-end"
                             onClick={() => {
+                                goToSearch()
                                 dispatch(findCocktailBySearchTermThunk(searchTerm))
                             }}>Search
                         </button>
