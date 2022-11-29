@@ -9,6 +9,7 @@ import Profile from "./routes/Profile/profile.component";
 import Review from "./routes/reviews/review.component";
 import Search from "./routes/search/search.component";
 import cocktailReducer from "./reducers/cocktail-reducer";
+import CocktailComponent from "./routes/cocktail/cocktail.component";
 
 const store = configureStore({
     reducer: {
@@ -27,6 +28,7 @@ const App = () => {
               <Route path='review' element={<Review/>}/>
               <Route path='search' element={<Search/>}/>
               <Route path={'/auth'} element={<Authentication />}/>
+              <Route path="cocktail/:id" element={<CocktailComponent/>}/>
           </Route>
       </Routes>
       </Provider>

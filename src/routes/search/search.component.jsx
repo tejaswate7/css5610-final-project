@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {findCocktailBySearchTermThunk} from "../../thunks/cocktail-thunk";
-import { useNavigate, createSearchParams, useSearchParams } from "react-router-dom";
+import {useNavigate, createSearchParams, useSearchParams, Link} from "react-router-dom";
 
 import "../search/search.styles.scss";
 
@@ -56,7 +56,7 @@ const Search = () => {
                         cocktails && cocktails.map((cocktail) =>
                         <tr>
                             <td><img src={cocktail.strDrinkThumb} width="100" height="100"/></td>
-                        <td>{cocktail.strDrink}</td>
+                            <Link to={`/cocktail/${cocktail.idDrink}`}><td>{cocktail.strDrink}</td></Link>
                         <td><i className="float-end bi bi-hand-thumbs-up"></i></td>
                         <td><i className="float-end bi bi-hand-thumbs-down me-2"></i></td>
                         </tr>
