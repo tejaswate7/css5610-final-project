@@ -8,6 +8,9 @@ import FormInput from "../form-input/form-input.component";
 
 import "./sign-in-form.styles.scss"
 import Button from "../button/button.component";
+import {setUser} from "../../store/user/user.reducer";
+import {setCurrentUser} from "../../store/user/user.action";
+import {useDispatch, useSelector} from "react-redux";
 
 const defaultFormFields = {
     email: '',
@@ -17,7 +20,8 @@ const defaultFormFields = {
 const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
-
+    const dispatch = useDispatch();
+    const { currentUser } = useSelector((state) => state.user)
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
@@ -32,6 +36,12 @@ const SignInForm = () => {
 
         try{
             const response = await signInAuthUserWithEmailAndPassword(email, password);
+            // console.log("current user", currentUser)
+            // console.log("Sign In With Email and Password called");
+            // console.log("Response", response.user)
+            // dispatch(setUser(setCurrentUser(response.user)))
+            // console.log("Dispatch Called Probably")
+            // console.log("current user now", currentUser)
             resetFormFields();
         }
         catch (error){
