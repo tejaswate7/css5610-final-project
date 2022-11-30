@@ -1,10 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {findCocktailBySearchTerm} from "../services/cocktail/cocktail-service";
-import {findCocktailBySearchTermThunk} from "../thunks/cocktail-thunk";
+import {findCocktailByIdThunk, findCocktailBySearchTermThunk} from "../thunks/cocktail-thunk";
 
 const initialState = {
     cocktails: [],
-    loading: false
+    currentCocktail: [],
+    loading: true
 }
 
 const cocktailReducer = createSlice({
@@ -13,6 +14,14 @@ const cocktailReducer = createSlice({
     extraReducers: {
         [findCocktailBySearchTermThunk.fulfilled]: (state, action) => {
             state.cocktails = action.payload
+        },
+        [findCocktailByIdThunk.pending]: (state, action) => {
+            state.loading = true
+            state.cocktails = action.payload
+        },
+        [findCocktailByIdThunk.fulfilled]: (state, action) => {
+            state.currentCocktail = action.payload
+            state.loading = false
         }
     }
 })
