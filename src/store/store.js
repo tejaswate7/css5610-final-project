@@ -9,10 +9,10 @@ import {logger} from "redux-logger/src";
 //                 serializableCheck: false,
 //             })});
 
-const middleWares = [process.env.NODE_ENV === 'development' && logger].filter(
-    Boolean
-);
-
-const composedEnhancers = compose(applyMiddleware(...middleWares));
-
-export const store = createStore(rootReducer, undefined, composedEnhancers);
+// const middleWares = [process.env.NODE_ENV === 'development' && logger].filter(
+//     Boolean
+// );
+//
+// const composedEnhancers = compose(applyMiddleware(...middleWares));
+//
+// export const store = createStore(rootReducer, undefined, composedEnhancers);

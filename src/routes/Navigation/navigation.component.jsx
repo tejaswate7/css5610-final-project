@@ -10,8 +10,9 @@ import { Fragment } from 'react'
 import {signOutUser} from "../../utils/firebase/firebase.utils";
 
 const Navigation = () => {
-    const currentUser = useSelector((state) => state.user.currentUser)
+    const {currentUser} = useSelector((state) => state.user)
 
+    // const currentUser = 'a';
     return(
         <Fragment>
             <div className="navigation">
