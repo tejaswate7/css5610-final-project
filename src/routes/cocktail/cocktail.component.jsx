@@ -10,7 +10,6 @@ const CocktailComponent = () => {
         dispatch(findCocktailByIdThunk(id));
     }, [id])
     const {currentCocktail, loading} = useSelector((state) => state.cocktail)
-    console.log(loading)
     const cocktail = currentCocktail[0]
     return (
         <div>

@@ -1,25 +1,36 @@
 import Home from './routes/Home/home.component'
 import { Routes, Route } from 'react-router-dom'
-import {configureStore} from "@reduxjs/toolkit";
-import {Provider} from "react-redux";
 import Navigation from "./routes/Navigation/navigation.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import Profile from "./routes/Profile/profile.component";
 import Review from "./routes/reviews/review.component";
 import Search from "./routes/search/search.component";
-import cocktailReducer from "./reducers/cocktail-reducer";
 import CocktailComponent from "./routes/cocktail/cocktail.component";
-
-const store = configureStore({
-    reducer: {
-        cocktail: cocktailReducer
-    }
-})
+import {useEffect, useReducer} from "react";
+import {createUserDocumentFromAuth, onAuthStateChangedListner, signOutUser} from "./utils/firebase/firebase.utils";
+import {setCurrentUser} from "./store/user/user.action";
+import {useDispatch} from "react-redux";
+import {Provider} from "react-redux";
+import cocktailReducer from "./reducers/cocktail-reducer";
+import { configureStore }
+    from '@reduxjs/toolkit';
+import userReducer, {setUser} from "./store/user/user.reducer";
 
 const App = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        const unsubscribe = onAuthStateChangedListner((user) => {
+            if (user) {
+                 createUserDocumentFromAuth(user);
+            }
+            dispatch(setUser(user));
+
+        });
+
+        return unsubscribe;
+    }, [dispatch]);
   return (
-      <Provider store={store}>
       <Routes>
           <Route path='/' element = {<Navigation />}>
               <Route index element={<Home />}/>
@@ -31,7 +42,6 @@ const App = () => {
               <Route path="cocktail/:id" element={<CocktailComponent/>}/>
           </Route>
       </Routes>
-      </Provider>
   );
 }
 

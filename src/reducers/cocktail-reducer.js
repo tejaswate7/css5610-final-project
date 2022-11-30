@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {findCocktailBySearchTerm} from "../services/cocktail/cocktail-service";
 import {findCocktailByIdThunk, findCocktailBySearchTermThunk} from "../thunks/cocktail-thunk";
+import {USER_ACTION_TYPES} from "../store/user/user.types";
 
 const initialState = {
     cocktails: [],

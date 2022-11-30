@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { getFirestore, doc, getDoc, addDoc, getDocs, setDoc, collection } from "firebase/firestore"
+import { getAuth, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { getFirestore, doc, getDoc, addDoc, query, getDocs, setDoc, collection, writeBatch } from "firebase/firestore"
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -89,3 +89,33 @@ export const createReviewsDoc = async () => {
     })
     console.log(res)
 }
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey)
+    const batch = writeBatch(db);
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase())
+        batch.set(docRef, object)
+    })
+
+    await batch.commit()
+    console.log("Batch commit done")
+}
+
+export const getCollectionsAndDocuments = async () => {
+    const collectionRef = collection(db, 'restaurants')
+    const q = query(collectionRef)
+
+    const querySnapshot = await getDocs(q)
+    const restroMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+        const { title, items } = docSnapshot.data();
+        acc[title.toLowerCase()] = items
+        return acc
+    }, {});
+
+    return restroMap;
+}
+
+export const signOutUser = async () => await signOut(auth)
+
+export const onAuthStateChangedListner =  (callback) =>  onAuthStateChanged(auth, callback);

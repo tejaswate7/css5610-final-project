@@ -19,10 +19,10 @@ const Search = () => {
             search: `?${createSearchParams(params)}`,
         });
     const {cocktails, loading} = useSelector((state) => state.cocktail)
+    const {currentUser} = useSelector((state) => state.user)
     const dispatch = useDispatch();
     useEffect(() => {
         setSearchTerm((searchParams.get("name")));
-        console.log(searchParams.get("name"));
         dispatch(findCocktailBySearchTermThunk(searchParams.get("name")))
     }, [searchParams])
 
