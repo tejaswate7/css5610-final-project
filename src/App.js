@@ -16,6 +16,7 @@ import cocktailReducer from "./reducers/cocktail-reducer";
 import { configureStore }
     from '@reduxjs/toolkit';
 import userReducer, {setUser} from "./store/user/user.reducer";
+import Admin from "./routes/admin/admin.component";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -39,6 +40,7 @@ const App = () => {
               <Route path='review' element={<Review/>}/>
               <Route path='search' element={<Search/>}/>
               <Route path={'/auth'} element={<Authentication />}/>
+              <Route path='/admin' element={<Admin/>}/>
               <Route path="cocktail/:id" element={<CocktailComponent/>}/>
           </Route>
       </Routes>

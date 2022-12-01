@@ -35,6 +35,9 @@ const Navigation = () => {
                     <Link className="nav-link" to="/review">
                         MY REVIEWS
                     </Link>
+                    <Link className="nav-link" to="/admin">
+                        ADMIN
+                    </Link>
                     <Link className="nav-link" to="/profile">
                         PROFILE
                     </Link>
