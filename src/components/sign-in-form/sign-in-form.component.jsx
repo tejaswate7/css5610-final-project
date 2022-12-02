@@ -11,6 +11,7 @@ import Button from "../button/button.component";
 import {setUser} from "../../store/user/user.reducer";
 import {setCurrentUser} from "../../store/user/user.action";
 import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const defaultFormFields = {
     email: '',
@@ -25,6 +26,7 @@ const  SignInForm = () => {
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
+    const navigate = useNavigate();
 
     const signInWithGoogle = async () =>{
         const { user } = await signInWithGooglePopup();
@@ -43,6 +45,7 @@ const  SignInForm = () => {
             // console.log("Dispatch Called Probably")
             // console.log("current user now", currentUser)
             resetFormFields();
+            navigate('/')
         }
         catch (error){
             switch(error.code){
