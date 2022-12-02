@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router-dom'
-
+import { useSelector } from 'react-redux'
 
 import { ReactComponent as RestaurantLogo } from '../../assets/logo.svg'
 import CartIcon from "../../components/cart-icon/cart-icon.component";
@@ -7,8 +7,12 @@ import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component
 
 import './navigation.styles.scss'
 import { Fragment } from 'react'
+import {signOutUser} from "../../utils/firebase/firebase.utils";
 
 const Navigation = () => {
+    const {currentUser} = useSelector((state) => state.user)
+
+    // const currentUser = 'a';
     return(
         <Fragment>
             <div className="navigation">
@@ -19,8 +23,23 @@ const Navigation = () => {
                     <Link className="nav-link" to="/shop">
                         BUY
                     </Link>
-                    <Link className="nav-link" to="/auth">
-                        SIGN IN
+                    {
+                        currentUser ? (
+                            <span className="nav-link" onClick={signOutUser}>SIGN OUT</span>
+                        ) : (
+                            <Link className="nav-link" to="/auth">
+                            SIGN IN
+                            </Link>
+                        )
+                    }
+                    <Link className="nav-link" to="/review">
+                        MY REVIEWS
+                    </Link>
+                    <Link className="nav-link" to="/admin">
+                        ADMIN
+                    </Link>
+                    <Link className="nav-link" to="/profile">
+                        PROFILE
                     </Link>
                     <CartIcon />
                 </div>

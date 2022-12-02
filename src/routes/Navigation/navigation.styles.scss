@@ -10,7 +10,12 @@
     width: 70px;
     padding: 25px;
   }
-
+  .logo-text {
+    height: 100%;
+    width: 20px;
+    padding: 25px;
+    justify-content: flex-start;
+  }
   .nav-links-container {
     width: 50%;
     height: 100%;

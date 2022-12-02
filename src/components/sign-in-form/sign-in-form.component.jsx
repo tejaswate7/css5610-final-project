@@ -8,19 +8,25 @@ import FormInput from "../form-input/form-input.component";
 
 import "./sign-in-form.styles.scss"
 import Button from "../button/button.component";
+import {setUser} from "../../store/user/user.reducer";
+import {setCurrentUser} from "../../store/user/user.action";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const defaultFormFields = {
     email: '',
     password: '',
 }
 
-const SignInForm = () => {
+const  SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
-
+    const dispatch = useDispatch();
+    const { currentUser } = useSelector((state) => state.user)
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
+    const navigate = useNavigate();
 
     const signInWithGoogle = async () =>{
         const { user } = await signInWithGooglePopup();
@@ -32,7 +38,14 @@ const SignInForm = () => {
 
         try{
             const response = await signInAuthUserWithEmailAndPassword(email, password);
+            // console.log("current user", currentUser)
+            // console.log("Sign In With Email and Password called");
+            // console.log("Response", response.user)
+            // dispatch(setUser(setCurrentUser(response.user)))
+            // console.log("Dispatch Called Probably")
+            // console.log("current user now", currentUser)
             resetFormFields();
+            navigate('/')
         }
         catch (error){
             switch(error.code){
