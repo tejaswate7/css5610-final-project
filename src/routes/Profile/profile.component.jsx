@@ -1,9 +1,99 @@
+import { Row, Col, Form, Button } from 'react-bootstrap'
+import {useEffect, useState} from "react";
+import {collection, getDocs, doc, deleteDoc, onSnapshot, getDoc} from "firebase/firestore"
+import {db} from "../../utils/firebase/firebase.utils";
+import {useDispatch, useSelector} from "react-redux";
+import {findCocktailBySearchTermThunk} from "../../thunks/cocktail-thunk";
+import {setDisplayName, setUser} from "../../store/user/user.reducer";
 const Profile = () => {
+
+    const { currentUser, displayName } = useSelector((state) => state.user)
+    const dispatch = useDispatch();
+    const [ name, setName ] = useState(displayName)
+    const [ email, setEmail ] = useState('')
+    // const [ email, setEmail ] = useState(currentUser.email)
+    useEffect(() => {
+        // const test = async () => {
+            // console.log("Current user Value is", currentUser)
+
+
+            setName(displayName)
+            if(currentUser){
+                setEmail(currentUser.email)
+
+            }
+            // const userDocRef = doc(db, 'users', currentUser.uid);
+            // const userSnapShot = await getDoc(userDocRef);
+            // console.log("User snapshot is",userSnapShot.data())
+
+
+            // collection(db, "users").doc(currentUser.id).get().then(doc => {
+            //     const newData = doc.data();
+            //     console.log("User ki ID", newData)
+            // });
+
+
+            // dispatch(setDisplayName(userSnapShot.data().displayName))
+            // dispatch(setUser(userSnapShot.data().email))
+
+
+            // setName(userSnapShot.data().displayName)
+            // setEmail(currentUser.email)
+        // }
+        // test()
+    }, [])
     return(
-    <>
-        <h1>This is Profile Component</h1>
-    </>
-)
+    <div>
+        <div className="border border-1 border-solid p-2 m-2">
+            <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
+            <div className="col-sm-10">
+                <input type="text" className="form-control" id="name" placeholder="Name" value={name}
+                       onChange={(event) => setName(event.target.value)}/>
+            </div>
+        </div>
+        <div className="border border-1 border-solid p-2 m-2">
+            <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
+            <div className="col-sm-10">
+                <input type="text" className="form-control" id="email" placeholder="email" value={email}
+                       onChange={(event) => setEmail(event.target.value)}/>
+            </div>
+        </div>
+        <div>
+            <button className="btn btn-primary float-end">
+                Update
+            </button>
+        </div>
+
+        {/*<Row>*/}
+        {/*    <Col md={6}>*/}
+        {/*        <Form>*/}
+        {/*            <Form.Group controlId="name">*/}
+        {/*                <Form.Label>Name</Form.Label>*/}
+        {/*                <Form.Control*/}
+        {/*                    type="text"*/}
+        {/*                    placeholder="Enter Name"*/}
+        {/*                    value={name}*/}
+        {/*                    onChange={(e) => setName(e.target.value)}*/}
+        {/*                ></Form.Control>*/}
+        {/*            </Form.Group>*/}
+        {/*            <Form.Group controlId="email">*/}
+        {/*                <Form.Label>Email Address</Form.Label>*/}
+        {/*                <Form.Control*/}
+        {/*                    type="email"*/}
+        {/*                    placeholder="Enter Email"*/}
+        {/*                    value={email}*/}
+        {/*                    onChange={(e) => setEmail(e.target.value)}*/}
+        {/*                ></Form.Control>*/}
+        {/*            </Form.Group>*/}
+        {/*            <Button type="submit" varient="primary">*/}
+        {/*                Update*/}
+        {/*            </Button>*/}
+        {/*        </Form>*/}
+        {/*    </Col>*/}
+        {/*    <Col>ProfilePic</Col>*/}
+        {/*</Row>*/}
+    </div>
+    )
 }
 
 export default Profile;

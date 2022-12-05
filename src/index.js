@@ -11,13 +11,14 @@ import {configureStore} from "@reduxjs/toolkit";
 import cocktailReducer from "./reducers/cocktail-reducer";
 import userReducer from "./store/user/user.reducer";
 // import { store } from './store/store';
+import { firebaseApp } from "./utils/firebase/firebase.utils";
 
 
 const store = configureStore(
     {reducer: {cocktail: cocktailReducer, user: userReducer}, middleware: getDefaultMiddleware =>
             getDefaultMiddleware({
                 serializableCheck: false,
-            })});
+            }), enhancers:[]});
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
