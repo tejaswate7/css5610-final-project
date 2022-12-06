@@ -165,6 +165,33 @@ export const downVoteCocktail = async (uid, rid, cid) => {
     }
 }
 
+    export const superLikeCocktail = async (uid, rid, cid) => {
+        console.log(uid, rid, cid)
+        const q = query(collection(db, "cocktails"), where("uid", "==", uid), where("rid", "==", rid), where("cid", "==", cid));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.docs.length === 0) {
+            const cocktailsDocumentRef = collection(db, 'cocktails')
+            await addDoc(cocktailsDocumentRef, {
+                uid: uid,
+                rid: rid,
+                cid: cid,
+                upVoted: false,
+                downVoted: false,
+                superLiked: true
+            })
+        } else {
+            const row = querySnapshot.docs[0]
+            const data = row._document.data.value.mapValue.fields
+            const rowRef = doc(db, "cocktails", row.id);
+            await setDoc(rowRef, {
+                uid: data.uid.stringValue,
+                rid: data.rid.stringValue,
+                cid: data.cid.stringValue,
+                downVoted: false, upVoted: false, superLiked: !data.superLiked.booleanValue
+            })
+        }
+}
+
 
 export const signOutUser = async () => await signOut(auth)
 

@@ -4,7 +4,7 @@ import {findCocktailBySearchTermThunk} from "../../thunks/cocktail-thunk";
 import {useNavigate, createSearchParams, useSearchParams, Link, useParams} from "react-router-dom";
 
 import "../search/search.styles.scss";
-import {db, downVoteCocktail, likeCocktail} from "../../utils/firebase/firebase.utils";
+import {db, downVoteCocktail, likeCocktail, superLikeCocktail} from "../../utils/firebase/firebase.utils";
 import {collection, onSnapshot, query, where} from "firebase/firestore";
 
 
@@ -32,8 +32,9 @@ const Search = () => {
 
     let upVote = new Map() ;
     let downVote = new Map() ;
+    let superLike = new Map();
     useEffect(() => {
-            if (currentUser != null) {
+            if (currentUser != null && cocktails != null) {
                 let cids = cocktails.map(a => a.idDrink);
                 const q = query(collection(db, "cocktails"), where("uid", "==", currentUser.uid), where("cid", "in", cids));
                 onSnapshot(q, (snapshot) =>
@@ -52,12 +53,18 @@ const Search = () => {
         downVoteCocktail(currentUser.uid, rid, cid)
     }
 
+    function handleSuperLike(cid) {
+        superLikeCocktail(currentUser.uid, rid, cid)
+    }
+
     let i = 0;
     upVote = new Map();
     downVote = new Map();
+    superLike = new Map();
     while (i < likeInfo.length) {
         upVote.set(likeInfo[i].cid, likeInfo[i].upVoted)
         downVote.set(likeInfo[i].cid, likeInfo[i].downVoted)
+        superLike.set(likeInfo[i].cid, likeInfo[i].superLiked)
         i++;
     }
 
@@ -98,6 +105,9 @@ const Search = () => {
                         <td>{ downVote.get(cocktail.idDrink) ?
                             <i className="float-end bi bi-hand-thumbs-down-fill me-2" style={{color: "red"}} onClick={() => handleDownVote(cocktail.idDrink)}></i>
                             : <i className="float-end bi bi-hand-thumbs-down me-2" onClick={() => handleDownVote(cocktail.idDrink)}></i>}</td>
+                            <td>{ superLike.get(cocktail.idDrink) ?
+                            <i className="float-end bi bi-heart-fill me-2" style={{color: "red"}} onClick={() => handleSuperLike(cocktail.idDrink)}></i>
+                            : <i className="float-end bi bi-heart me-2" onClick={() => handleSuperLike(cocktail.idDrink)}></i>}</td>
                         </tr>
                 )}
                     </tbody>
