@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom'
+import {Outlet, Link, useNavigate} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { ReactComponent as RestaurantLogo } from '../../assets/logo.svg'
@@ -11,7 +11,11 @@ import {signOutUser} from "../../utils/firebase/firebase.utils";
 
 const Navigation = () => {
     const {currentUser} = useSelector((state) => state.user)
-
+    const navigate = useNavigate()
+    const signOutUserAndRedirect = async () => {
+        await signOutUser()
+        navigate('/')
+    }
     // const currentUser = 'a';
     return(
         <Fragment>
@@ -25,7 +29,7 @@ const Navigation = () => {
                     </Link>
                     {
                         currentUser ? (
-                            <span className="nav-link" onClick={signOutUser}>SIGN OUT</span>
+                            <span className="nav-link" onClick={signOutUserAndRedirect}>SIGN OUT</span>
                         ) : (
                             <Link className="nav-link" to="/auth">
                             SIGN IN
@@ -35,9 +39,15 @@ const Navigation = () => {
                     <Link className="nav-link" to="/review">
                         MY REVIEWS
                     </Link>
-                    <Link className="nav-link" to="/profile">
-                        PROFILE
+                    <Link className="nav-link" to="/admin">
+                        ADMIN
                     </Link>
+                    {
+                        currentUser &&
+                        <Link className="nav-link" to="/profile">
+                            PROFILE
+                        </Link>
+                    }
                     <CartIcon />
                 </div>
                 {/*<CartDropdown />*/}

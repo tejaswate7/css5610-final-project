@@ -7,6 +7,7 @@ import Button from "../button/button.component";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../store/user/user.reducer";
 import {setCurrentUser} from "../../store/user/user.action";
+import {useNavigate} from "react-router-dom";
 
 const defaultFormFields = {
     displayName: '',
@@ -19,7 +20,7 @@ const defaultFormFields = {
 const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
-
+    const navigate = useNavigate();
     const { currentUser } = useSelector((state) => state.user)
     const dispatch = useDispatch();
     const resetFormFields = () => {
@@ -40,6 +41,7 @@ const SignUpForm = () => {
             // dispatch(setUser(setCurrentUser(user)))
             await createUserDocumentFromAuth(user, { displayName })
             resetFormFields();
+            navigate('/')
         }
         catch (error){
             if(error.code === "auth/email-already-in-use"){
