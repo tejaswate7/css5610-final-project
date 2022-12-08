@@ -19,7 +19,7 @@ const Search = () => {
     let { rid } = useParams();
     const goToSearch = () =>
         navigate({
-            pathname: '/search',
+            pathname: `/restaurant/${rid}/search`,
             search: `?${createSearchParams(params)}`,
         });
     const {cocktails, loading} = useSelector((state) => state.cocktail)
@@ -34,13 +34,12 @@ const Search = () => {
     let downVote = new Map() ;
     let superLike = new Map();
     useEffect(() => {
+           console.log(currentUser)
             if (currentUser != null && cocktails != null) {
                 let cids = cocktails.map(a => a.idDrink);
                 const q = query(collection(db, "cocktails"), where("uid", "==", currentUser.uid), where("cid", "in", cids));
                 onSnapshot(q, (snapshot) =>
                     setLikeInfo(snapshot.docs.map((doc) => ({...doc.data()}))))
-
-
             }
                         }
         , [cocktails, currentUser])
