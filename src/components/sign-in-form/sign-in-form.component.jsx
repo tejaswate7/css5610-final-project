@@ -38,6 +38,7 @@ const  SignInForm = () => {
 
         try{
             const response = await signInAuthUserWithEmailAndPassword(email, password);
+
             // console.log("current user", currentUser)
             // console.log("Sign In With Email and Password called");
             // console.log("Response", response.user)
