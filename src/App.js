@@ -46,7 +46,6 @@ const App = () => {
               <Route path={'/auth'} element={<Authentication />}/>
               <Route path="restaurant/:rid/cocktail/:id" element={<CocktailComponent/>}/>
               <Route path='/admin' element={<Admin/>}/>
-              <Route path="cocktail/:id" element={<CocktailComponent/>}/>
           </Route>
       </Routes>
   );
