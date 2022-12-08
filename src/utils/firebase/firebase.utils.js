@@ -88,13 +88,15 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 }
 
 export const createReviewsDoc = async (review, userId, userName, dishId, rid) => {
+    console.log("username", userName)
     const commentsDocumentRef = collection(db, 'comments')
     const res = await addDoc(commentsDocumentRef, {
         comment: review,
         userId: userId,
         userName: userName,
         dishId: dishId,
-        rid: rid
+        rid: rid,
+        createdAt: new Date()
     })
     console.log(res)
 }
