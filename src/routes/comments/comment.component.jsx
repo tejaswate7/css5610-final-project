@@ -1,7 +1,7 @@
 import {deleteDoc, doc} from "firebase/firestore";
 import {db} from "../../utils/firebase/firebase.utils";
 import {useSelector} from "react-redux";
-
+import {Link} from "react-router-dom";
 
 const CommentItem = (
     {
@@ -33,7 +33,7 @@ const CommentItem = (
             <i className="bi bi-x-lg float-end"
                onClick={() => deleteCommentHandler()}></i>}
             <p style={{"fontSize": "15px"}} dangerouslySetInnerHTML={{__html: comment.comment}}></p>
-            <p style={{"fontSize": "12px"}}><i>by <strong>{comment.userName} at {time}</strong></i></p>
+            <p style={{"fontSize": "12px"}}><i>by <Link to={`/profile/${comment.userId}`}><strong>{comment.userName}</strong></Link><strong> at {time}</strong></i></p>
         </div>
     </div>) : (<h2>None</h2>)}
         </div>
