@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "firebase/auth"
-import { getFirestore, doc, getDoc, addDoc, query, getDocs, setDoc, collection, writeBatch } from "firebase/firestore"
+import { getAuth, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { getFirestore, doc, getDoc, addDoc, query, getDocs, setDoc, collection, writeBatch, where } from "firebase/firestore"
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -87,16 +87,16 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     return await signInWithEmailAndPassword(auth, email, password);
 }
 
-export const createReviewsDoc = async () => {
-    const userCollectionRef = collection(db, "users")
-    const data = await getDocs(userCollectionRef)
-    console.log(data.docs.map((doc) => ({
-        ...doc.data(), id: doc.id
-    })))
-    const reviewsDocumentRef = collection(db, 'reviews')
-    const res = await addDoc(reviewsDocumentRef, {
-        title: "Hello",
-        Name: "lol"
+export const createReviewsDoc = async (review, userId, userName, dishId, rid) => {
+    console.log("username", userName)
+    const commentsDocumentRef = collection(db, 'comments')
+    const res = await addDoc(commentsDocumentRef, {
+        comment: review,
+        userId: userId,
+        userName: userName,
+        dishId: dishId,
+        rid: rid,
+        createdAt: new Date()
     })
     console.log(res)
 }
@@ -126,6 +126,85 @@ export const getCollectionsAndDocuments = async () => {
 
     return restroMap;
 }
+
+export const likeCocktail = async (uid, rid, cid) => {
+    const q = query(collection(db, "cocktails"), where("uid", "==", uid), where("rid", "==", rid), where("cid", "==", cid));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length === 0) {
+        const cocktailsDocumentRef = collection(db, 'cocktails')
+        await addDoc(cocktailsDocumentRef, {
+            uid: uid,
+            rid: rid,
+            cid: cid,
+            upVoted: true,
+            downVoted: false
+        })
+    } else {
+        const row = querySnapshot.docs[0]
+        const data = row._document.data.value.mapValue.fields
+        const rowRef = doc(db, "cocktails", row.id);
+        await setDoc(rowRef, {
+            uid: data.uid.stringValue,
+            rid: data.rid.stringValue,
+            cid: data.cid.stringValue,
+            upVoted: !data.upVoted.booleanValue, downVoted: false
+        })
+    }
+}
+
+export const downVoteCocktail = async (uid, rid, cid) => {
+    console.log(uid, rid, cid)
+    const q = query(collection(db, "cocktails"), where("uid", "==", uid), where("rid", "==", rid), where("cid", "==", cid));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length === 0) {
+        const cocktailsDocumentRef = collection(db, 'cocktails')
+        await addDoc(cocktailsDocumentRef, {
+            uid: uid,
+            rid: rid,
+            cid: cid,
+            upVoted: false,
+            downVoted: true
+        })
+    } else {
+        const row = querySnapshot.docs[0]
+        const data = row._document.data.value.mapValue.fields
+        const rowRef = doc(db, "cocktails", row.id);
+        await setDoc(rowRef, {
+            uid: data.uid.stringValue,
+            rid: data.rid.stringValue,
+            cid: data.cid.stringValue,
+            downVoted: !data.downVoted.booleanValue, upVoted: false
+        })
+    }
+}
+
+    export const superLikeCocktail = async (uid, rid, cid) => {
+        console.log(uid, rid, cid)
+        const q = query(collection(db, "cocktails"), where("uid", "==", uid), where("rid", "==", rid), where("cid", "==", cid));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.docs.length === 0) {
+            const cocktailsDocumentRef = collection(db, 'cocktails')
+            await addDoc(cocktailsDocumentRef, {
+                uid: uid,
+                rid: rid,
+                cid: cid,
+                upVoted: false,
+                downVoted: false,
+                superLiked: true
+            })
+        } else {
+            const row = querySnapshot.docs[0]
+            const data = row._document.data.value.mapValue.fields
+            const rowRef = doc(db, "cocktails", row.id);
+            await setDoc(rowRef, {
+                uid: data.uid.stringValue,
+                rid: data.rid.stringValue,
+                cid: data.cid.stringValue,
+                downVoted: false, upVoted: false, superLiked: !data.superLiked.booleanValue
+            })
+        }
+}
+
 
 export const signOutUser = async () => await signOut(auth)
 
