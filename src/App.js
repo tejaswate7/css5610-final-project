@@ -23,9 +23,11 @@ const App = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         const unsubscribe = onAuthStateChangedListner(async (user) => {
+            console.log("Auth State Changed: User value is", user)
             if (user) {
-                createUserDocumentFromAuth(user);
-                const userDocRef = doc(db, 'users', user.uid);
+                const userDocRef = await createUserDocumentFromAuth(user);
+                console.log("current user id is ", user.uid)
+                // const userDocRef = doc(db, 'users', user.uid);
                 const userSnapShot = await getDoc(userDocRef);
                 console.log("User snapshot is", userSnapShot.data())
                 dispatch(setDisplayName(userSnapShot.data().displayName))
