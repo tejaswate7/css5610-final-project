@@ -42,7 +42,9 @@ const CocktailComponent = () => {
                 </div>)}
 
             <div className="row justify-content-center ">
-                <div className="col-5">
+                { currentUser &&
+                    <div className="row justify-content-center ">
+                    <div className="col-5">
                        <textarea value={review} placeholder="Your thoughts?"
                                  className="form-control border border-dark border-1 rounded-pill ps-3 pt-2"
                                  onChange={(event) => setReview(event.target.value)}>
@@ -54,6 +56,7 @@ const CocktailComponent = () => {
                                 Review
                             </button>
                 </div>
+                    </div>}
                     <div className="col-12"><hr/></div>
                 </div>
 

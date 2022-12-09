@@ -21,7 +21,6 @@ const CommentItem = (
     const min = date.getMinutes();
     const sec = date.getSeconds();
     const time = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
-    console.log(time)
 
     return(
         <div>
@@ -29,7 +28,7 @@ const CommentItem = (
     comment.userName ?
         (<div className="row wd-border-color-grey pt-2">
         <div className="col-12">
-            { currentUser.uid === comment.userId &&
+            { currentUser && currentUser.uid === comment.userId &&
             <i className="bi bi-x-lg float-end"
                onClick={() => deleteCommentHandler()}></i>}
             <p style={{"fontSize": "15px"}} dangerouslySetInnerHTML={{__html: comment.comment}}></p>

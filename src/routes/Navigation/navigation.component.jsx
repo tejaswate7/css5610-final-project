@@ -1,5 +1,5 @@
 import {Outlet, Link, useNavigate} from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import {useSelector} from 'react-redux'
 
 import { ReactComponent as RestaurantLogo } from '../../assets/logo.svg'
 import CartIcon from "../../components/cart-icon/cart-icon.component";
