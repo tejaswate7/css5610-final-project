@@ -44,10 +44,10 @@ const App = () => {
               <Route path='shop' element={<Shop />}/>
               <Route path='profile' element={<Profile/>}/>
               <Route path='review' element={<Review/>}/>
-              <Route path='search' element={<Search/>}/>
+              <Route path='restaurant/:rid/search' element={<Search/>}/>
               <Route path={'/auth'} element={<Authentication />}/>
+              <Route path="restaurant/:rid/cocktail/:id" element={<CocktailComponent/>}/>
               <Route path='/admin' element={<Admin/>}/>
-              <Route path="cocktail/:id" element={<CocktailComponent/>}/>
           </Route>
       </Routes>
   );
