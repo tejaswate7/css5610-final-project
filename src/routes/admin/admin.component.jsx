@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import { collection, getDocs, doc, deleteDoc, onSnapshot } from "firebase/firestore"
 import { deleteUser } from 'firebase/auth'
 import { db } from "../../utils/firebase/firebase.utils"
+import { auth } from "../../utils/firebase/firebase.utils"
 const Admin = () => {
     const [users, setUsers] = useState();
     // const usersCollectionRef = collection(db, "users")
@@ -9,8 +10,9 @@ const Admin = () => {
     const deleteUserFromFirestore = async (id) => {
         const userDoc = doc(db, "users", id)
         await deleteDoc(userDoc)
+        const status = await deleteUser(id)
+        console.log("user deleted from firebase auth?", status)
         console.log("Done")
-        await deleteUser(id)
     }
     useEffect(() =>
             // const usersCollectionRef = collection(db, "users")
@@ -26,7 +28,7 @@ const Admin = () => {
             {
                 users
                 &&
-                users.filter((user) => user.email !== "admin@gmail.com").map((user) => {
+                users.filter((user) => user.email !== auth.currentUser.email).map((user) => {
                 return(
                     <div className="row">
                         <div className="col-md-4"><h1>Name: {user.displayName}</h1></div>

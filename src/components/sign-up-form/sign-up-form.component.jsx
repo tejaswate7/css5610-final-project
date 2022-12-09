@@ -12,13 +12,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../store/user/user.reducer";
 import {setCurrentUser} from "../../store/user/user.action";
 import {useNavigate} from "react-router-dom";
+import FormDropdownInput from "../form-dropdown-input/form-dropdown-input.component";
 
 const defaultFormFields = {
     displayName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    userType:''
+    userType:'normal'
 }
 
 const SignUpForm = () => {
@@ -75,7 +76,13 @@ const SignUpForm = () => {
             <form onSubmit={handleSubmit}>
                 <FormInput label="Display Name" type="text" required onChange={handleChange} name="displayName" value={displayName}/>
                 <FormInput label="email" type="email" required onChange={handleChange} name="email" value={email}/>
-                <FormInput label="userType" type="text" required onChange={handleChange} name="userType" value={userType}/>
+                {/*<FormInput label="userType" type="text" required onChange={handleChange} name="userType" value={userType}/>*/}
+                {/*<select id="userType">*/}
+                {/*    <option value="normal" selected>Normal</option>*/}
+                {/*    <option value="critic">Critic</option>*/}
+                {/*    <option value="admin">Admin</option>*/}
+                {/*</select>*/}
+                <FormDropdownInput name="userType" label="User Type" onChange={handleChange} value={userType}/>
                 <FormInput label="Password" type="password" required onChange={handleChange} name="password" value={password}/>
                 <FormInput label="Confirm Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword}/>
 

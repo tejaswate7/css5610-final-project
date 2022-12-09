@@ -3,9 +3,13 @@ import {useEffect, useState} from "react";
 import {collection, getDocs, doc, deleteDoc, onSnapshot, getDoc} from "firebase/firestore"
 import {db} from "../../utils/firebase/firebase.utils";
 import {useDispatch, useSelector} from "react-redux";
+import { Icon } from 'react-icons-kit'
+import {edit2} from 'react-icons-kit/feather/edit2'
+import "./profile.styles.scss"
 import {findCocktailBySearchTermThunk} from "../../thunks/cocktail-thunk";
 import {setDisplayName, setUser} from "../../store/user/user.reducer";
-const Profile = () => {
+import {FormProfile} from "../../components/form-profile/form-profile";
+const Profile = ({ editabilityStatus }) => {
 
     const { currentUser, displayName } = useSelector((state) => state.user)
     const dispatch = useDispatch();
@@ -20,8 +24,9 @@ const Profile = () => {
             setName(displayName)
             if(currentUser){
                 setEmail(currentUser.email)
-
             }
+
+
             // const userDocRef = doc(db, 'users', currentUser.uid);
             // const userSnapShot = await getDoc(userDocRef);
             // console.log("User snapshot is",userSnapShot.data())
@@ -43,55 +48,47 @@ const Profile = () => {
         // test()
     }, [])
     return(
-    <div>
-        <div className="border border-1 border-solid p-2 m-2">
-            <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
-            <div className="col-sm-10">
-                <input type="text" className="form-control" id="name" placeholder="Name" value={name}
-                       onChange={(event) => setName(event.target.value)}/>
+    <div className="profile-container">
+        <FormProfile userToBeEdited={currentUser.uid}/>
+        {
+            editabilityStatus &&
+            <div>
+                <div className="border border-1 border-solid p-2 m-2">
+                    <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" id="name" placeholder="Name" value={name}
+                               onChange={(event) => setName(event.target.value)}/>
+                    </div>
+                </div>
+                <div className="border border-1 border-solid p-2 m-2">
+                    <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
+                    <div className="col-sm-10">
+                        <input type="text" className="form-control" id="email" placeholder="email" value={email}
+                               onChange={(event) => setEmail(event.target.value)}/>
+                    </div>
+                    <div>
+                        <button className="btn btn-primary float-end">
+                            Update
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div className="border border-1 border-solid p-2 m-2">
-            <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
-            <div className="col-sm-10">
-                <input type="text" className="form-control" id="email" placeholder="email" value={email}
-                       onChange={(event) => setEmail(event.target.value)}/>
-            </div>
-        </div>
-        <div>
-            <button className="btn btn-primary float-end">
-                Update
-            </button>
-        </div>
 
-        {/*<Row>*/}
-        {/*    <Col md={6}>*/}
-        {/*        <Form>*/}
-        {/*            <Form.Group controlId="name">*/}
-        {/*                <Form.Label>Name</Form.Label>*/}
-        {/*                <Form.Control*/}
-        {/*                    type="text"*/}
-        {/*                    placeholder="Enter Name"*/}
-        {/*                    value={name}*/}
-        {/*                    onChange={(e) => setName(e.target.value)}*/}
-        {/*                ></Form.Control>*/}
-        {/*            </Form.Group>*/}
-        {/*            <Form.Group controlId="email">*/}
-        {/*                <Form.Label>Email Address</Form.Label>*/}
-        {/*                <Form.Control*/}
-        {/*                    type="email"*/}
-        {/*                    placeholder="Enter Email"*/}
-        {/*                    value={email}*/}
-        {/*                    onChange={(e) => setEmail(e.target.value)}*/}
-        {/*                ></Form.Control>*/}
-        {/*            </Form.Group>*/}
-        {/*            <Button type="submit" varient="primary">*/}
-        {/*                Update*/}
-        {/*            </Button>*/}
-        {/*        </Form>*/}
-        {/*    </Col>*/}
-        {/*    <Col>ProfilePic</Col>*/}
-        {/*</Row>*/}
+        }
+        {
+            !editabilityStatus &&
+            <div className="profile-actions row">
+                <div className=''>
+                    <span>{ name }</span>
+                    <span>{ email }</span>
+                </div>
+                <div>
+                    <span className='profile-edit'>
+                        <Icon icon={edit2} size={24}/>
+                    </span>
+                </div>
+            </div>
+        }
     </div>
     )
 }

@@ -15,7 +15,7 @@ import {Provider} from "react-redux";
 import cocktailReducer from "./reducers/cocktail-reducer";
 import { configureStore }
     from '@reduxjs/toolkit';
-import userReducer, {setDisplayName, setUser} from "./store/user/user.reducer";
+import userReducer, {setDisplayName, setUser, setUserType} from "./store/user/user.reducer";
 import Admin from "./routes/admin/admin.component";
 import {doc, getDoc} from "firebase/firestore";
 
@@ -31,8 +31,12 @@ const App = () => {
                 const userSnapShot = await getDoc(userDocRef);
                 console.log("User snapshot is", userSnapShot.data())
                 dispatch(setDisplayName(userSnapShot.data().displayName))
+                dispatch(setUserType(userSnapShot.data().userType))
             }
-
+            else{
+                dispatch(setDisplayName(null))
+                dispatch(setUserType(null))
+            }
             dispatch(setUser(user));
         });
         return unsubscribe;
@@ -42,7 +46,7 @@ const App = () => {
           <Route path='/' element = {<Navigation />}>
               <Route index element={<Home />}/>
               <Route path='shop' element={<Shop />}/>
-              <Route path='profile' element={<Profile/>}/>
+              <Route path='profile' element={<Profile editabilityStatus={false}/>}/>
               <Route path='review' element={<Review/>}/>
               <Route path='search' element={<Search/>}/>
               <Route path={'/auth'} element={<Authentication />}/>
