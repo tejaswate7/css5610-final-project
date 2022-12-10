@@ -10,7 +10,7 @@ import { Fragment } from 'react'
 import {signOutUser} from "../../utils/firebase/firebase.utils";
 
 const Navigation = () => {
-    const {currentUser} = useSelector((state) => state.user)
+    const {currentUser, userType} = useSelector((state) => state.user)
     const navigate = useNavigate()
     const signOutUserAndRedirect = async () => {
         await signOutUser()
@@ -39,9 +39,13 @@ const Navigation = () => {
                     <Link className="nav-link" to="/review">
                         MY REVIEWS
                     </Link>
-                    <Link className="nav-link" to="/admin">
-                        ADMIN
-                    </Link>
+                    {
+                        userType === 'admin'
+                                &&
+                        <Link className="nav-link" to="/admin">
+                            ADMIN
+                        </Link>
+                    }
                     {
                         currentUser &&
                         <Link className="nav-link" to="/profile">

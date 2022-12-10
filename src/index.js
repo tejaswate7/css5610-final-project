@@ -12,10 +12,11 @@ import cocktailReducer from "./reducers/cocktail-reducer";
 import userReducer from "./store/user/user.reducer";
 // import { store } from './store/store';
 import { firebaseApp } from "./utils/firebase/firebase.utils";
+import restaurantReducer from "./store/restaurants/restaurant.reducer";
 
 
 const store = configureStore(
-    {reducer: {cocktail: cocktailReducer, user: userReducer}, middleware: getDefaultMiddleware =>
+    {reducer: {cocktail: cocktailReducer, user: userReducer, restaurant: restaurantReducer}, middleware: getDefaultMiddleware =>
             getDefaultMiddleware({
                 serializableCheck: false,
             }), enhancers:[]});

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
-import { getFirestore, doc, getDoc, addDoc, query, getDocs, setDoc, collection, writeBatch, where } from "firebase/firestore"
+import { getAuth, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "firebase/auth"
+import { getFirestore, doc, getDoc, addDoc, query, getDocs, setDoc, collection, writeBatch, updateDoc, where } from "firebase/firestore"
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -105,7 +105,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     const collectionRef = collection(db, collectionKey)
     const batch = writeBatch(db);
     objectsToAdd.forEach((object) => {
-        const docRef = doc(collectionRef, object.title.toLowerCase())
+        const docRef = doc(collectionRef/*, object.title.toLowerCase()*/)
         batch.set(docRef, object)
     })
 
@@ -116,15 +116,26 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 export const getCollectionsAndDocuments = async () => {
     const collectionRef = collection(db, 'restaurants')
     const q = query(collectionRef)
+    const restaurants = await getDocs(q)
+    const restaurantsArray = []
+    if(restaurants.docs.length > 0){
+        for (let snap of restaurants.docs){
+            console.log("this is snap", snap.id)
+            const data = snap.data()
+            data['id'] = snap.id
+            restaurantsArray.push(data)
+        }
+    }
 
-    const querySnapshot = await getDocs(q)
-    const restroMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-        const { title, items } = docSnapshot.data();
-        acc[title.toLowerCase()] = items
-        return acc
-    }, {});
+    return restaurantsArray;
+    // const restroMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    //     const { title, imageUrl } = docSnapshot.data();
+    //     acc[title.toLowerCase()] = [{title, imageUrl}]
+    //     return acc
+    // }, {});
 
-    return restroMap;
+
+    // return restroMap;
 }
 
 export const likeCocktail = async (uid, rid, cid) => {
@@ -209,3 +220,8 @@ export const downVoteCocktail = async (uid, rid, cid) => {
 export const signOutUser = async () => await signOut(auth)
 
 export const onAuthStateChangedListner =  (callback) =>  onAuthStateChanged(auth, callback);
+
+export const updateUserProfile = async (userToBeEdited, updates) => {
+    const docRef = doc(db, "users", userToBeEdited);
+    await updateDoc(docRef, updates);
+}

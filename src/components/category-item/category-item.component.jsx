@@ -9,7 +9,7 @@ const CategoryItem = ({ category }) => {
             <div className="background-image" style={{
                 backgroundImage: `url(${imageUrl})`
             }}/>
-            <div onClick={() => navigate("/search")} className="category-body-container">
+            <div onClick={() => navigate(`restaurant/${id}/search`)} className="category-body-container">
                 <h2>{title}</h2>
                 <p>Explore Now</p>
             </div>
