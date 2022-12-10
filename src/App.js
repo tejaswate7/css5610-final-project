@@ -52,7 +52,7 @@ const App = () => {
               <Route path='restaurant/:rid/search' element={<Search/>}/>
               <Route path={'/auth'} element={<Authentication />}/>
               <Route path="restaurant/:rid/cocktail/:id" element={<CocktailComponent/>}/>
-              <Route path='/admin' element={<Admin/>}/>
+              <Route path='/admin' element={<PrivateRoute><Admin/></PrivateRoute>}/>
           </Route>
       </Routes>
   );

@@ -102,7 +102,7 @@ const Search = () => {
                             : <i title="Up-vote" className="float-end bi bi-hand-thumbs-up"  onClick={ () => handleUpVote(cocktail.idDrink)}></i>}</td> : <span/>}
                             {currentUser && userType !== "critic" ? <td>{ downVote.get(cocktail.idDrink) ?
                             <i title="Down-vote" className="float-end bi bi-hand-thumbs-down-fill me-2" style={{color: "red"}} onClick={() => handleDownVote(cocktail.idDrink)}></i>
-                            : <i title="Down-vote" vclassName="float-end bi bi-hand-thumbs-down me-2" onClick={() => handleDownVote(cocktail.idDrink)}></i>}</td> : <span/>}
+                            : <i title="Down-vote" className="float-end bi bi-hand-thumbs-down me-2" onClick={() => handleDownVote(cocktail.idDrink)}></i>}</td> : <span/>}
                             {currentUser && userType === "critic" ? <td>{ superLike.get(cocktail.idDrink) ?
                             <i title="Super like" className="float-end bi bi-heart-fill me-2" style={{color: "red"}} onClick={() => handleSuperLike(cocktail.idDrink)}></i>
                             : <i title="Super like" className="float-end bi bi-heart me-2" onClick={() => handleSuperLike(cocktail.idDrink)}></i>}</td> : <span/> }

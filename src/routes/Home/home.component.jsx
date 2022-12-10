@@ -25,10 +25,13 @@ const Home = () => {
         <div>
             <h2>
                 <div className="text-center mb-4">
-                    Welcome to TTR - Your favourite place to check out and rate dishes from restaurants
+                    Welcome to Spirited Tavern
+                </div>
+                <div className="text-center fs-4 mb-4">
+                    Raising the bar on drink reviews and good times
                 </div>
             </h2>
-            <p className="text-center">TTL is a website that helps you rate dishes that you have eaten at your favourite restaurants in Boston. It helps patrons choose the best dishes next time when you order at your favourite restaurants. Explore different restaurants and the wide variety of dishes they have to offer the next time you go there right here on TTR.</p>
+            <p className="text-center">Spirited Tavern is a website that helps you rate drinks at your favourite taverns in Boston. It helps patrons choose the best drinks next time when you order at your favourite tavern.</p>
             {/*{*/}
             {/*    restaurants.length > 0 ? (<Directory categories={categories}/>) : (<div>nothing to display</div>)*/}
             {/*}*/}
