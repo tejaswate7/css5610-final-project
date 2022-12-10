@@ -1,8 +1,9 @@
 import { USER_ACTION_TYPES } from "./user.types";
 import {createSlice} from "@reduxjs/toolkit";
 const INITIAL_STATE = {
-    currentUser: null,
-    displayName: null
+    currentUser: null, // object retrieved from auth
+    displayName: null,
+    userType:null
 }
 
 // export const userReducer = (state = INITIAL_STATE, action) => {
@@ -34,9 +35,13 @@ const userSlice = createSlice({
         setDisplayName(state, action){
             state.displayName = action.payload
             console.log("Logging setDisplayName action", action)
+        },
+        setUserType(state, action){
+            state.userType = action.payload
+            console.log("Logging setUserType action", action)
         }
     }
 })
 
-export const { setUser, setDisplayName } = userSlice.actions;
+export const { setUser, setDisplayName, setUserType } = userSlice.actions;
 export default userSlice.reducer;
