@@ -18,6 +18,7 @@ import { configureStore }
 import userReducer, {setDisplayName, setUser, setUserType} from "./store/user/user.reducer";
 import Admin from "./routes/admin/admin.component";
 import {doc, getDoc} from "firebase/firestore";
+import PrivateRoute from "./routes/PrivateRoute/privateroute";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -46,7 +47,7 @@ const App = () => {
           <Route path='/' element = {<Navigation />}>
               <Route index element={<Home />}/>
               <Route path='shop' element={<Shop />}/>
-              <Route path='profile' element={<Profile editabilityStatus={false}/>}/>
+              <Route path='profile' element={<PrivateRoute><Profile editabilityStatus={false}/></PrivateRoute>}/>
               <Route path='review' element={<Review/>}/>
               <Route path='restaurant/:rid/search' element={<Search/>}/>
               <Route path={'/auth'} element={<Authentication />}/>
