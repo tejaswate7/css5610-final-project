@@ -10,7 +10,7 @@ import { Fragment } from 'react'
 import {signOutUser} from "../../utils/firebase/firebase.utils";
 
 const Navigation = () => {
-    const {currentUser, userType} = useSelector((state) => state.user)
+    const {currentUser, displayName, userType} = useSelector((state) => state.user)
     const navigate = useNavigate()
     const signOutUserAndRedirect = async () => {
         await signOutUser()
@@ -24,9 +24,6 @@ const Navigation = () => {
                     <RestaurantLogo className = "logo" width={50}/>
                 </Link>
                 <div className = "nav-links-container">
-                    <Link className="nav-link" to="/shop">
-                        BUY
-                    </Link>
                     {
                         currentUser ? (
                             <span className="nav-link" onClick={signOutUserAndRedirect}>SIGN OUT</span>
@@ -36,9 +33,13 @@ const Navigation = () => {
                             </Link>
                         )
                     }
-                    <Link className="nav-link" to="/review">
-                        MY REVIEWS
-                    </Link>
+                    {
+                        currentUser ? (
+                            <div>HELLO {displayName.toUpperCase()}</div>
+                        ) : (
+                            <div></div>
+                        )
+                    }
                     {
                         userType === 'admin'
                                 &&
@@ -52,9 +53,7 @@ const Navigation = () => {
                             PROFILE
                         </Link>
                     }
-                    <CartIcon />
                 </div>
-                {/*<CartDropdown />*/}
             </div>
             <Outlet/>
         </Fragment>
