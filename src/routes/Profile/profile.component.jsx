@@ -17,10 +17,6 @@ const Profile = ({ editabilityStatus }) => {
     const [ email, setEmail ] = useState('')
     // const [ email, setEmail ] = useState(currentUser.email)
     useEffect(() => {
-        // const test = async () => {
-            // console.log("Current user Value is", currentUser)
-
-
             setName(displayName)
             if(currentUser){
                 setEmail(currentUser.email)
