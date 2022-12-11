@@ -31,10 +31,11 @@ const CocktailComponent = () => {
         <div className="container">
             { loading ? (<h1>Loading...</h1>)
             : (<div className="row p-2">
-                    <div className="col-3">
-                    <img className="rounded-circle" src={cocktail.strDrinkThumb} width="300" height="300"></img>
+                    <div className="col-4 col-xl-4 col-lg-4 col-md-6">
+                    <img className="rounded-circle d-none d-md-block d-sm-none fa-2x" src={cocktail.strDrinkThumb} width="300" height="300"></img>
+                    <img className="rounded-circle d-sm-block d-md-none pe-3" src={cocktail.strDrinkThumb} width="150" height="150"></img>
                     </div>
-                    <div className="col-8">
+                    <div className="col-8 col-xl-8 col-lg-8 col-md-6">
                     <h1 className="p-2">{cocktail.strDrink}</h1>
                         {cocktail.strTags && <h3 className="p-2">Tags: {cocktail.strTags}</h3>}
                         {cocktail.strInstructions && <p className="p-2">Instructions: {cocktail.strInstructions}</p>}

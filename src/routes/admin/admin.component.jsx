@@ -23,21 +23,20 @@ const Admin = () => {
             setUsers(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))))
     , [])
     return(
-        <div>
-            This is admin component
+        <table className="table table-hover table-bordered">
             {
                 users
                 &&
                 users.filter((user) => user.email !== auth.currentUser.email).map((user) => {
                 return(
-                    <div className="row">
-                        <div className="col-md-4"><h1>Name: {user.displayName}</h1></div>
-                        <div className="col-md-4"><h1>Email: {user.email}</h1></div>
-                        <div className="col-md-4 text-center"><button type="button" className="btn btn-danger" onClick={()=> deleteUserFromFirestore(user.id)}>Delete User</button></div>
-                    </div>
+                    <tr>
+                        <td ><h1 >Name: {user.displayName}</h1></td>
+                        <td><h1>Email: {user.email}</h1></td>
+                        <td  className="btn btn-danger mt-2"><button type="button" className="btn btn-danger" onClick={()=> deleteUserFromFirestore(user.id)}>Delete User</button></td>
+                    </tr>
                 )
             })}
-        </div>
+        </table>
     )
 }
 
