@@ -90,7 +90,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     return await signInWithEmailAndPassword(auth, email, password);
 }
 
-export const createReviewsDoc = async (review, userId, userName, dishId, rid) => {
+export const createReviewsDoc = async (review, userId, userName, dishId, rid, dishName) => {
     console.log("username", userName)
     const commentsDocumentRef = collection(db, 'comments')
     const res = await addDoc(commentsDocumentRef, {
@@ -98,6 +98,7 @@ export const createReviewsDoc = async (review, userId, userName, dishId, rid) =>
         userId: userId,
         userName: userName,
         dishId: dishId,
+        dishName: dishName,
         rid: rid,
         createdAt: new Date()
     })
