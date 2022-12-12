@@ -1,6 +1,6 @@
 import { USER_ACTION_TYPES } from "./user.types";
 import {createSlice} from "@reduxjs/toolkit";
-import {findUserByIdThunk} from "./userthunk";
+import {findUserByIdThunk} from "../../thunks/userthunk";
 
 const INITIAL_STATE = {
     currentUser: null, // object retrieved from auth
@@ -15,15 +15,15 @@ const userSlice = createSlice({
     reducers: {
         setUser(state, action){
             state.currentUser = action.payload
-            console.log("Logging SetUser action", action)
+            // console.log("Logging SetUser action", action)
         },
         setDisplayName(state, action){
             state.displayName = action.payload
-            console.log("Logging setDisplayName action", action)
+            // console.log("Logging setDisplayName action", action)
         },
         setUserType(state, action){
             state.userType = action.payload
-            console.log("Logging setUserType action", action)
+            // console.log("Logging setUserType action", action)
         }
     },
     extraReducers: {

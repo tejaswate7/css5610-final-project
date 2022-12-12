@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {findUserById} from "./userservice";
+import {findUserById} from "../services/userservice";
 
 export const findUserByIdThunk = createAsyncThunk(
     'findUserById',

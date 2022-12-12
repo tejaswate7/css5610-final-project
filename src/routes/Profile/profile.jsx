@@ -10,7 +10,7 @@ import {findCocktailByIdThunk, findCocktailBySearchTermThunk} from "../../thunks
 import {setDisplayName, setUser} from "../../store/user/user.reducer";
 import {FormProfile} from "../../components/form-profile/form-profile";
 import {useParams} from "react-router-dom";
-import CommentItem from "../comments/comment.component";
+import ProfileCommentItem from "./profile-commentitem";
 
 const Profile = ({ editabilityStatus }) => {
 
@@ -27,8 +27,8 @@ const Profile = ({ editabilityStatus }) => {
     const [photoURL, setPhotoURL] = useState("https://iscast.org/wp-content/uploads/2016/12/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpeg")
 
     let [allReview, setAllReviews] = useState([])
-    const q = query(collection(db, "comments"));
-    // const q = query(collection(db, "comments"), where("userId", "==", currentUser.uid));
+    //const q = query(collection(db, "comments"));
+    const q = query(collection(db, "comments"), where("userId", "==", currentUser.uid));
     useEffect(() => {
                   onSnapshot(q, (snapshot) =>
                       setAllReviews(snapshot.docs.map((doc) =>
@@ -81,31 +81,31 @@ const Profile = ({ editabilityStatus }) => {
                         <div className="h2 p-1 pb-2">{name}</div>
                         <div className="h4 p-1">
                             <label className="col-1">User Type: </label>
-                            <span className="col-11">{usrType}</span>
+                            <span className="col-11 fst-italic fw-semibold">{usrType}</span>
                         </div>
                         <div className="h4 p-1">
                             <label className="col-1">Email: </label>
                             {edit && <input type="text" className="col-11" placeholder="email" value={email}></input>}
-                            {!edit && <label>{email}</label>}
+                            {!edit && <span className="col-11 fst-italic fw-semibold">{email}</span>}
                         </div>
                         <div className="h4 p-1">
                             <label className="col-1">Location: </label>
                             {edit && <input type="text" className="col-11" placeholder="city/country" value={location}></input>}
-                            {!edit && <label>{location}</label>}
+                            {!edit && <span className="col-11 fst-italic fw-semibold">{location}</span>}
                         </div>
                         <div className="h4 p-1">
                             <label className="col-1">Phone: </label>
                             {edit && <input type="text" className="col-11" placeholder="+1 xxx xxx xxxx" value={contact}></input>}
-                            {!edit && <label>{contact}</label>}
+                            {!edit && <span className="col-11 fst-italic fw-semibold">{contact}</span>}
                         </div>
                     </div>
                 </div>
             </div>
             <hr className="border border-light border-2 opacity-75"/>
             <div className="row">
-                <div>My Reviews</div>
+                <div className="text-black fw-bolder ms-2 mb-1" style={{"fontSize": "25px"}}>My Reviews</div>
             </div>
-            <ul>
+            <ul className="list-group">
                 {
                     !(allReview.length>0) &&
                     <li className="list-group-item align-items-center d-flex">
@@ -114,20 +114,9 @@ const Profile = ({ editabilityStatus }) => {
                 }
                 {
                     (allReview.length>0) &&
-                    allReview.map(comment => <CommentItem key={comment.id} comment={comment}></CommentItem>)
+                    allReview.map(comment => <ProfileCommentItem key={comment.id} comment={comment}></ProfileCommentItem>)
                 }
             </ul>
-            {/*<div>*/}
-            {/*    !{allReview} &&*/}
-            {/*    <li className="list-group-item"></li>*/}
-            {/*</div>*/}
-            {/*<ul className="list-group">*/}
-            {/*    {*/}
-            {/*        allReview ?*/}
-            {/*        allReview.map(comment => <CommentItem key={comment.id} comment={comment}></CommentItem>)*/}
-            {/*                  : <li className="list-group-item">No Reviews givens yet</li>*/}
-            {/*    }*/}
-            {/*</ul>*/}
         </div>
     )
 

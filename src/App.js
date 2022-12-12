@@ -16,8 +16,8 @@ import {setDisplayName, setUser, setUserType} from "./store/user/user.reducer";
 import Admin from "./routes/admin/admin.component";
 import {doc, getDoc} from "firebase/firestore";
 import PrivateRoute from "./routes/PrivateRoute/privateroute";
-import Profile from "./routes/Profile/profile.component";
-import PublicProfile from "./routes/Profile/publicprofile.component";
+import Profile from "./routes/Profile/profile";
+import PublicProfile from "./routes/Profile/publicprofile";
 
 const App = () => {
     const dispatch = useDispatch()
