@@ -7,9 +7,8 @@ import {
 import FormInput from "../form-input/form-input.component";
 
 import "./sign-in-form.styles.scss"
-import Button from "../button/button.component";
-import {setUser} from "../../store/user/user.reducer";
-import {setCurrentUser} from "../../store/user/user.action";
+import {setUser} from "../../reducers/user/user.reducer";
+
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
@@ -78,7 +77,7 @@ const  SignInForm = () => {
                 <FormInput label="email" type="email" required onChange={handleChange} name="email" value={email}/>
                 <FormInput label="Password" type="password" required onChange={handleChange} name="password" value={password}/>
                 <div className="buttons-container">
-                    <Button type="submit">Sign In</Button>
+                    <button type="submit" className="btn btn-primary">Sign In</button>
                 </div>
             </form>
         </div>

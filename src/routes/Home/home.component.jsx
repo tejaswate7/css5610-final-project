@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {addCollectionAndDocuments, getCollectionsAndDocuments} from "../../utils/firebase/firebase.utils";
 import RESTAURANT_DATA from "../../restaurant-data";
 import {useDispatch, useSelector} from "react-redux";
-import {getRestaurants} from "../../store/restaurants/restaurant.reducer";
+import {getRestaurants} from "../../reducers/restaurants/restaurant.reducer";
 
 
 const Home = () => {
