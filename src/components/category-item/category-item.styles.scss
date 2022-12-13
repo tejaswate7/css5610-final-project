@@ -42,7 +42,7 @@
   }
 
   .category-body-container {
-    height: 90px;
+    height: min-content;
     padding: 0 25px;
     display: flex;
     flex-direction: column;

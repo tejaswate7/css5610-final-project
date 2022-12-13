@@ -5,11 +5,11 @@ const CategoryItem = ({ category }) => {
     const navigate = useNavigate();
     const { imageUrl, title, id } = category
     return (
-        <div key={id} className="category-container">
+        <div key={id} className="category-container text-wrap position-relative">
             <div className="background-image" style={{
                 backgroundImage: `url(${imageUrl})`
             }}/>
-            <div onClick={() => navigate(`restaurant/${id}/search`)} className="category-body-container">
+            <div onClick={() => navigate(`restaurant/${id}/search`)} className="category-body-container text-wrap">
                 <h2>{title}</h2>
                 <p>Explore Now</p>
             </div>
