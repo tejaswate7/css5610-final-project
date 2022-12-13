@@ -13,12 +13,11 @@
     cursor: pointer;
 
     & .background-image {
-      transform: scale(1.1);
-      transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+      transform: scale(2);
     }
 
     & .category-body-container {
-      opacity: 0.9;
+      opacity: 1;
     }
   }
 
@@ -57,12 +56,8 @@
       font-weight: bold;
       margin: 0 6px 0;
       font-size: 22px;
-      color: #4a4a4a;
+      color: #4a4a4b;
     }
 
-    p {
-      font-weight: lighter;
-      font-size: 16px;
-    }
   }
 }
