@@ -7,7 +7,7 @@ import { Icon } from 'react-icons-kit'
 import {edit2} from 'react-icons-kit/feather/edit2'
 import "./profile.styles.scss"
 import {findCocktailByIdThunk, findCocktailBySearchTermThunk} from "../../thunks/cocktail-thunk";
-import {setDisplayName, setUser} from "../../store/user/user.reducer";
+import {setDisplayName, setUser} from "../../reducers/user/user.reducer";
 import {FormProfile} from "../../components/form-profile/form-profile";
 import {useParams} from "react-router-dom";
 import ProfileCommentItem from "./profile-commentitem";
