@@ -34,7 +34,7 @@ const Search = () => {
     let downVote = new Map() ;
     let superLike = new Map();
     useEffect(() => {
-            if (currentUser !== null && cocktails !== null && cocktails.length !== 0) {
+            if (currentUser !== null && cocktails !== null && cocktails !== undefined && cocktails.length !== 0) {
                 let cids = cocktails.map(a => a.idDrink);
                 const q = query(collection(db, "cocktails"), where("uid", "==", currentUser.uid), where("cid", "in", cids));
                 onSnapshot(q, (snapshot) =>
