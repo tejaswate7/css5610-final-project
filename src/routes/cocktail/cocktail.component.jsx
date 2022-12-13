@@ -25,7 +25,7 @@ const CocktailComponent = () => {
     const {currentCocktail, loading} = useSelector((state) => state.cocktail)
     const cocktail = currentCocktail[0]
     const reviewClickHandler = () => {
-        createReviewsDoc(review, currentUser.uid, displayName, id, rid);
+        createReviewsDoc(review, currentUser.uid, displayName, id, rid, cocktail.strDrink);
     }
     return (
         <div className="container">

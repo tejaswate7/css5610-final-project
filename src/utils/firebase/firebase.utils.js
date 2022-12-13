@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "firebase/auth"
+import { getAuth, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser, updateProfile } from "firebase/auth"
 import { getFirestore, doc, getDoc, addDoc, query, getDocs, setDoc, collection, writeBatch, updateDoc, where } from "firebase/firestore"
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,6 +30,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
+export const storage = getStorage()
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
     prompt: "select_account"
@@ -40,6 +42,7 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 
 
 export const db = getFirestore();
+
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
     if(!userAuth){
@@ -87,7 +90,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     return await signInWithEmailAndPassword(auth, email, password);
 }
 
-export const createReviewsDoc = async (review, userId, userName, dishId, rid) => {
+export const createReviewsDoc = async (review, userId, userName, dishId, rid, dishName) => {
     console.log("username", userName)
     const commentsDocumentRef = collection(db, 'comments')
     const res = await addDoc(commentsDocumentRef, {
@@ -95,6 +98,7 @@ export const createReviewsDoc = async (review, userId, userName, dishId, rid) =>
         userId: userId,
         userName: userName,
         dishId: dishId,
+        dishName: dishName,
         rid: rid,
         createdAt: new Date()
     })
@@ -224,4 +228,14 @@ export const onAuthStateChangedListner =  (callback) =>  onAuthStateChanged(auth
 export const updateUserProfile = async (userToBeEdited, updates) => {
     const docRef = doc(db, "users", userToBeEdited);
     await updateDoc(docRef, updates);
+}
+
+export const upload = async (file, currentUser, setLoading) => {
+    const fileRef = ref(storage, currentUser.uid + ".png")
+    setLoading(true)
+    const snapshot = await uploadBytes(fileRef, file)
+    const photoURL = await getDownloadURL(fileRef)
+    updateProfile(currentUser, {photoURL : photoURL})
+    setLoading(false)
+    alert("file uploaded")
 }
