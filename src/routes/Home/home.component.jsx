@@ -72,7 +72,7 @@ const Home = () => {
         console.log("review feed in use effect", reviewFeed)
         if (reviewFeed.length !== 0) {
             let ids = reviewFeed.map(a => a.dishId)
-            // console.log("ids", reviewFeed)
+            console.log("payload 5", ids)
             reviewFeed.map(drink => dispatch(findCocktailByIds2Thunk(ids)))
         }
     }, [reviewFeed])
