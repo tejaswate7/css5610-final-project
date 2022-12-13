@@ -1,16 +1,31 @@
 
 import Directory from "../../components/directory/directory.component";
 import {useEffect, useState} from "react";
-import {addCollectionAndDocuments, getCollectionsAndDocuments} from "../../utils/firebase/firebase.utils";
+import {addCollectionAndDocuments, db, getCollectionsAndDocuments} from "../../utils/firebase/firebase.utils";
 import RESTAURANT_DATA from "../../restaurant-data";
 import {useDispatch, useSelector} from "react-redux";
 import {getRestaurants} from "../../store/restaurants/restaurant.reducer";
+import {collection, onSnapshot, query, where, orderBy, limit} from "firebase/firestore";
+import CommentItem from "../comments/comment.component";
+import {
+    findCocktailById2Thunk,
+    findCocktailById3Thunk,
+    findCocktailByIds2Thunk,
+    findCocktailByIdsThunk
+} from "../../thunks/cocktail-thunk";
+import {findRenderedDOMComponentWithClass} from "react-dom/test-utils";
+import {Link} from "react-router-dom";
+import {setCocktailsFeedMap, setLatestCocktailsMap} from '../../reducers/cocktail-reducer'
 
 
 const Home = () => {
     const dispatch = useDispatch()
     const { restaurants } = useSelector((state) => state.restaurant)
+    const {cocktailsInFeed, cocktailsInLatestFeed, cocktailsInLatestFeed2, cocktailsInFeed2} = useSelector((state) => state.cocktail)
     const [rest, setRest] = useState([]);
+    const {currentUser} = useSelector((state) => state.user)
+    let [reviewFeed, setReviewFeed] = useState([])
+    let [latestFeed, setLatestFeed] = useState([])
     useEffect(()=>{
         // addCollectionAndDocuments('restaurants', RESTAURANT_DATA)
         const getRes = async () => {
@@ -21,6 +36,59 @@ const Home = () => {
         }
         getRes();
     },[])
+    useEffect(() => {
+        if (currentUser) {
+        const q = query(collection(db, "comments"), where("userId", "==", currentUser.uid));
+        onSnapshot(q, (snapshot) =>
+            setReviewFeed(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))))
+        }
+        dispatch(setCocktailsFeedMap())
+    }, [currentUser])
+    useEffect(() => {
+        const q = query(collection(db, "comments"), orderBy("createdAt", "desc"), limit(5));
+        onSnapshot(q, (snapshot) =>
+            setLatestFeed(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))))
+        dispatch(setLatestCocktailsMap())
+    }, [])
+
+
+    // useEffect(() => {
+    //     console.log("review feed in use effect", reviewFeed)
+    //     if (reviewFeed.length !== 0) {
+    //         // let ids = reviewFeed.map(a => a.idDrink)
+    //         // console.log("ids", reviewFeed)
+    //         reviewFeed.map(drink => dispatch(findCocktailById2Thunk(drink.dishId)))
+    //     }
+    // }, [reviewFeed])
+    // useEffect(() => {
+    //     console.log("latest feed in use effect", latestFeed)
+    //     if (latestFeed.length !== 0) {
+    //         // let ids = reviewFeed.map(a => a.idDrink)
+    //         // console.log("ids", reviewFeed)
+    //         latestFeed.map(drink => dispatch(findCocktailById3Thunk(drink.dishId)))
+    //     }
+    // }, [latestFeed])
+    useEffect(() => {
+        console.log("review feed in use effect", reviewFeed)
+        if (reviewFeed.length !== 0) {
+            let ids = reviewFeed.map(a => a.dishId)
+            // console.log("ids", reviewFeed)
+            reviewFeed.map(drink => dispatch(findCocktailByIds2Thunk(ids)))
+        }
+    }, [reviewFeed])
+    useEffect(() => {
+        if (latestFeed.length !== 0) {
+            let ids = latestFeed.map(a => a.dishId)
+            console.log("payload 4", ids, latestFeed)
+            dispatch(findCocktailByIdsThunk(ids))
+        }
+    }, [latestFeed])
+
+    console.log("reviews feed", reviewFeed, currentUser, cocktailsInFeed, latestFeed)
+    console.log("lengths of latest ds", latestFeed.length, cocktailsInLatestFeed.size)
+    console.log("payload 4", cocktailsInLatestFeed2)
+    console.log("lengths of feed ds", reviewFeed.length, cocktailsInFeed2.size)
+    console.log("payload 5", reviewFeed, cocktailsInFeed2)
     return (
         <div>
             <h2>
@@ -36,6 +104,55 @@ const Home = () => {
             {/*    restaurants.length > 0 ? (<Directory categories={categories}/>) : (<div>nothing to display</div>)*/}
             {/*}*/}
             <Directory categories={rest}/>
+            {
+                currentUser && reviewFeed.length !==0 &&
+                <div>
+                    <h3 className="pt-2 text-center">Your reviews feed</h3>
+                    {
+                        reviewFeed && cocktailsInFeed2.size !== 0?
+                            reviewFeed.map(comment =>
+                                <div className="row pt-4">
+                                    <div className="col-3 col-xl-1 pe-xl-0 pe-lg-5 col-md-2 col-sm-2">
+                                        <img className="rounded-circle" src={cocktailsInFeed2.get(comment.dishId).strDrinkThumb} width="80" height="80"></img><br></br>
+                                        <Link to={`/restaurant/${comment.rid}/cocktail/${comment.dishId}`}><h7 className="justify-content-center">{cocktailsInFeed2.get(comment.dishId).strDrink}</h7></Link>
+                                    </div>
+                                    <div className="col-7 col-xl-11 ps-xl-0 col-lg-9 col-md-7 col-sm-7">
+                                        <CommentItem key={comment.id} comment={comment} canDelete={false}></CommentItem>
+                                    </div>
+                                </div>
+                            )
+                            : <li className="list-group-item">
+                                No Reviews yet! Get started!
+                            </li>
+                    }
+                </div>
+
+            }
+            {
+                latestFeed.length !==0 &&
+                <div>
+                    <h3 className="pt-2 text-center">Recent activity on Spirited Tavern</h3>
+                    {
+                        latestFeed && cocktailsInLatestFeed2.size !== 0?
+                            latestFeed.map(comment =>
+
+                                <div className="row pt-4">
+                                    <div className="col-3 col-xl-1 pe-xl-0 pe-lg-5 col-md-2 col-sm-2">
+                                        <img className="rounded-circle" src={cocktailsInLatestFeed2.get(comment.dishId).strDrinkThumb} width="80" height="80"></img><br></br>
+                                        <Link to={`/restaurant/${comment.rid}/cocktail/${comment.dishId}`}><h7 className="justify-content-center">{cocktailsInLatestFeed2.get(comment.dishId).strDrink}</h7></Link>
+                                    </div>
+                                    <div className="col-7 col-xl-11 ps-xl-0 col-lg-9 col-md-7 col-sm-7">
+                                        <CommentItem key={comment.id} comment={comment} canDelete={false}></CommentItem>
+                                    </div>
+                                </div>
+                            )
+                            : <li className="list-group-item">
+                                No Reviews yet! Get started!
+                            </li>
+                    }
+                </div>
+
+            }
         </div>
     );
 }
