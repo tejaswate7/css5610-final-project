@@ -11,7 +11,6 @@ const CategoryItem = ({ category }) => {
             }}/>
             <div onClick={() => navigate(`restaurant/${id}/search`)} className="category-body-container">
                 <h2>{title}</h2>
-                <p>Explore Now</p>
             </div>
         </div>
     )
