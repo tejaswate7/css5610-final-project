@@ -47,7 +47,7 @@ const cocktailReducer = createSlice({
             state.cocktailsInLatestFeed2 = action.payload
         },
         [findCocktailByIds2Thunk.fulfilled]: (state, action) => {
-            // console.log("payload 4", action.payload)
+            // console.log("in reducer payload 5", action.payload)
             state.cocktailsInFeed2 = action.payload
         }
     },

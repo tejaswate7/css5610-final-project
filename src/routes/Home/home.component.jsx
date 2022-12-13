@@ -5,7 +5,7 @@ import {addCollectionAndDocuments, db, getCollectionsAndDocuments} from "../../u
 import RESTAURANT_DATA from "../../restaurant-data";
 import {useDispatch, useSelector} from "react-redux";
 import {getRestaurants} from "../../store/restaurants/restaurant.reducer";
-import {collection, onSnapshot, query, where, orderBy, limit} from "firebase/firestore";
+import {collection, onSnapshot, query, where, orderBy, limit, getDocs} from "firebase/firestore";
 import CommentItem from "../comments/comment.component";
 import {
     findCocktailById2Thunk,
@@ -36,18 +36,50 @@ const Home = () => {
         }
         getRes();
     },[])
-    useEffect(() => {
+    useEffect( () => {
         if (currentUser) {
         const q = query(collection(db, "comments"), where("userId", "==", currentUser.uid));
-        onSnapshot(q, (snapshot) =>
-            setReviewFeed(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))))
+        let res = []
+        // onSnapshot(q, (snapshot) => {
+        //     const test1 = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))
+        //     setReviewFeed(test1)
+        // })
+        async function fetchData() {
+            // You can await here
+            const docs = await getDocs(q)
+            if(docs.docs.length > 0){
+                for (let snap of docs.docs){
+                    const data = snap.data()
+                    data['id'] = snap.id
+                    res.push(data)
+                }
+            }
+            setReviewFeed(res)
+        }
+        fetchData();
         }
         dispatch(setCocktailsFeedMap())
     }, [currentUser])
     useEffect(() => {
         const q = query(collection(db, "comments"), orderBy("createdAt", "desc"), limit(5));
-        onSnapshot(q, (snapshot) =>
-            setLatestFeed(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))))
+        let res = []
+        // onSnapshot(q, (snapshot) => {
+        //     const test1 = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))
+        //     setLatestFeed(test1)
+        // })
+        async function fetchData() {
+            // You can await here
+            const docs = await getDocs(q)
+            if(docs.docs.length > 0){
+                for (let snap of docs.docs){
+                    const data = snap.data()
+                    data['id'] = snap.id
+                    res.push(data)
+                }
+            }
+            setLatestFeed(res)
+        }
+        fetchData();
         dispatch(setLatestCocktailsMap())
     }, [])
 
