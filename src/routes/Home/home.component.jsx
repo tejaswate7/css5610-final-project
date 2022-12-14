@@ -22,7 +22,7 @@ const Home = () => {
         getRes();
     },[])
     return (
-        <div>
+        <>
             <h2>
                 <div className="text-center mb-4">
                     Welcome to Spirited Tavern
@@ -35,9 +35,9 @@ const Home = () => {
             {/*{*/}
             {/*    restaurants.length > 0 ? (<Directory categories={categories}/>) : (<div>nothing to display</div>)*/}
             {/*}*/}
+            <h2 className="text-center">Taverns</h2>
             <Directory categories={rest}/>
-        </div>
-    );
+        </>);
 }
 
 export default Home;

@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {
     createUserDocumentFromAuth,
-    signInWithGooglePopup,
     signInAuthUserWithEmailAndPassword
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
@@ -26,11 +25,6 @@ const  SignInForm = () => {
         setFormFields(defaultFormFields);
     }
     const navigate = useNavigate();
-
-    const signInWithGoogle = async () =>{
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
-    }
 
     const handleSubmit = async (event) =>{
         event.preventDefault()
