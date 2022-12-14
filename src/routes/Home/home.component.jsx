@@ -122,7 +122,7 @@ const Home = () => {
     console.log("lengths of feed ds", reviewFeed.length, cocktailsInFeed2.size)
     console.log("payload 5", reviewFeed, cocktailsInFeed2)
     return (
-        <div>
+        <div >
             <h2>
                 <div className="text-center mb-4">
                     Welcome to Spirited Tavern
@@ -139,52 +139,83 @@ const Home = () => {
             <Directory categories={rest}/>
             {
                 currentUser && reviewFeed.length !==0 &&
-                <div>
-                    <h3 className="pt-2 text-center">Your reviews feed</h3>
-                    {
-                        reviewFeed && cocktailsInFeed2.size !== 0?
-                            reviewFeed.map(comment =>
-                                <div className="row pt-4">
-                                    <div className="col-3 col-xl-1 pe-xl-0 pe-lg-5 col-md-2 col-sm-2">
-                                        <img className="rounded-circle" src={cocktailsInFeed2.get(comment.dishId).strDrinkThumb} width="80" height="80"></img><br></br>
-                                        <Link to={`/restaurant/${comment.rid}/cocktail/${comment.dishId}`}><h7 className="justify-content-center">{cocktailsInFeed2.get(comment.dishId).strDrink}</h7></Link>
-                                    </div>
-                                    <div className="col-7 col-xl-11 ps-xl-0 col-lg-9 col-md-7 col-sm-7">
-                                        <CommentItem key={comment.id} comment={comment} canDelete={false}></CommentItem>
-                                    </div>
-                                </div>
-                            )
-                            : <li className="list-group-item">
-                                No Reviews yet! Get started!
-                            </li>
-                    }
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col col-md-10 col-lg-8 col-xl-5 align-content-center justify-content-center align-items-center">
+                            <h3 className="pt-2 text-center">Your reviews feed</h3>
+                            {
+                                reviewFeed && cocktailsInFeed2.size !== 0?
+                                reviewFeed.map(comment =>
+                                                   <div className="row pt-4 justify-content-center border border-light">
+                                                       <div className="col-3 float-end">
+                                                           <div className="row"></div>
+                                                           <div className="row">
+                                                               <div className="float-end">
+                                                                   <img className="rounded-circle float-start" src={cocktailsInFeed2.get(comment.dishId).strDrinkThumb} width="80" height="80"></img><br></br>
+                                                               </div>
+                                                           </div>
+                                                           <div className="row">
+                                                               <div className="float-start pe-1">
+                                                                   <Link to={`/restaurant/${comment.rid}/cocktail/${comment.dishId}`} className="float-start pe-2">
+                                                                       <h7>
+                                                                           {cocktailsInFeed2.get(comment.dishId).strDrink}
+                                                                       </h7>
+                                                                   </Link>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+                                                       <div className="col">
+                                                           <CommentItem key={comment.id} comment={comment} canDelete={false}></CommentItem>
+                                                       </div>
+                                                   </div>
+                                )
+                                                                         : <li className="list-group-item">
+                                    No Reviews yet! Get started!
+                                </li>
+                            }
+                        </div>
+                    </div>
                 </div>
 
             }
             {
                 latestFeed.length !==0 &&
-                <div>
-                    <h3 className="pt-2 text-center">Recent activity on Spirited Tavern</h3>
-                    {
-                        latestFeed && cocktailsInLatestFeed2.size !== 0?
-                            latestFeed.map(comment =>
-
-                                <div className="row pt-4">
-                                    <div className="col-3 col-xl-1 pe-xl-0 pe-lg-5 col-md-2 col-sm-2">
-                                        <img className="rounded-circle" src={cocktailsInLatestFeed2.get(comment.dishId).strDrinkThumb} width="80" height="80"></img><br></br>
-                                        <Link to={`/restaurant/${comment.rid}/cocktail/${comment.dishId}`}><h7 className="justify-content-center">{cocktailsInLatestFeed2.get(comment.dishId).strDrink}</h7></Link>
-                                    </div>
-                                    <div className="col-7 col-xl-11 ps-xl-0 col-lg-9 col-md-7 col-sm-7">
-                                        <CommentItem key={comment.id} comment={comment} canDelete={false}></CommentItem>
-                                    </div>
-                                </div>
-                            )
-                            : <li className="list-group-item">
-                                No Reviews yet! Get started!
-                            </li>
-                    }
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col col-md-10 col-lg-8 col-xl-5 align-content-center justify-content-center align-items-center">
+                            <h3 className="pt-2 mt-5 text-center">Recent activity on Spirited Tavern</h3>
+                            {
+                                latestFeed && cocktailsInLatestFeed2.size !== 0?
+                                latestFeed.map(comment =>
+                                                   <div className="row pt-4 justify-content-center border border-light">
+                                                       <div className="col-3 float-end">
+                                                           <div className="row"></div>
+                                                           <div className="row">
+                                                               <div className="float-end">
+                                                                   <img className="rounded-circle float-start" src={cocktailsInLatestFeed2.get(comment.dishId).strDrinkThumb} width="80" height="80"></img><br></br>
+                                                               </div>
+                                                           </div>
+                                                           <div className="row">
+                                                               <div className="float-start pe-1">
+                                                                   <Link to={`/restaurant/${comment.rid}/cocktail/${comment.dishId}`} className="float-start pe-2">
+                                                                       <h7>
+                                                                           {cocktailsInLatestFeed2.get(comment.dishId).strDrink}
+                                                                       </h7>
+                                                                   </Link>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+                                                       <div className="col">
+                                                           <CommentItem key={comment.id} comment={comment} canDelete={false}></CommentItem>
+                                                       </div>
+                                                   </div>
+                                ) : <li className="list-group-item">
+                                    No Reviews yet! Get started!
+                                </li>
+                            }
+                        </div>
+                    </div>
                 </div>
-
             }
         </div>
     );
