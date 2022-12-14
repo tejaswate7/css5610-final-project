@@ -6,7 +6,6 @@ import "./profile.styles.scss"
 import ProfileCommentItem from "./profile-commentitem";
 
 const Profile = () => {
-
     const { currentUser, displayName, userType, location, contact } = useSelector((state) => state.user)
     const [edit, setEdit] = useState(false)
     const [ name, setName ] = useState(displayName)
@@ -96,7 +95,7 @@ const Profile = () => {
                             <label className="col-2">Email: </label>
                             <span className="col-10 d-inline-block fst-italic fw-semibold">
                                 {email}
-                                <i className="bi bi-globe2 ms-2 fs-6" rel="tooltip" title="Public"></i>
+                                <i className="bi bi-file-lock ms-2 fs-6" rel="tooltip" title="Private"></i>
                             </span>
                         </div>
                         <div className="h4 p-1">
@@ -114,6 +113,8 @@ const Profile = () => {
                             <label className="col-2">Phone: </label>
                             {edit && <input type="text" className="col-10" placeholder="+1 xxx xxx xxxx" value={phone}
                                             onChange={(event) => setContact(event.target.value)}></input>}
+                            {/*{edit && <PhoneInput country={'us'} value={phone}*/}
+                            {/*                     onChange={phoneno => setContact(phoneno)}/>}*/}
                             {!edit && <span className="col-10 fst-italic fw-semibold">
                                 {phone}
                                 <i className="bi bi-file-lock ms-2 fs-6" rel="tooltip" title="Private"></i>
