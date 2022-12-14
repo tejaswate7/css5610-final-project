@@ -8,9 +8,7 @@ import {useEffect, useReducer} from "react";
 import {createUserDocumentFromAuth, db, onAuthStateChangedListner, signOutUser} from "./utils/firebase/firebase.utils";
 
 import {useDispatch} from "react-redux";
-import {Provider} from "react-redux";
-import cocktailReducer from "./reducers/cocktail-reducer";
-import {setDisplayName, setUser, setUserType} from "./reducers/user/user.reducer";
+import {setDisplayName, setUser, setUserContact, setUserLocation, setUserType} from "./reducers/user/user.reducer";
 import Admin from "./routes/admin/admin.component";
 import {doc, getDoc} from "firebase/firestore";
 import PrivateRoute from "./routes/PrivateRoute/privateroute";
@@ -31,10 +29,14 @@ const App = () => {
                 console.log("User snapshot is", userSnapShot.data())
                 dispatch(setDisplayName(userSnapShot.data().displayName))
                 dispatch(setUserType(userSnapShot.data().userType))
+                dispatch(setUserContact(userSnapShot.data().contact))
+                dispatch(setUserLocation(userSnapShot.data().location))
             }
             else{
                 dispatch(setDisplayName(null))
                 dispatch(setUserType(null))
+                dispatch(setUserContact(null))
+                dispatch(setUserLocation(null))
             }
             dispatch(setUser(user));
         });
@@ -46,7 +48,7 @@ const App = () => {
               <Route index element={<Home />}/>
               <Route path='profile' element={
                   <PrivateRoute>
-                      <Profile editabilityStatus={false}/>
+                      <Profile/>
                   </PrivateRoute>
               }/>
               <Route path="profile/:uid" element={<PublicProfile/>}/>

@@ -32,31 +32,31 @@ const PublicProfile = () => {
     return (
         <div className="profile-container">
             {publicProfile &&
-             <div className="row">
-                <div className="col-2">
+             <div className="d-flex flex-row">
+                <div>
                     <img src={photoURL}
                          width="300px" height="300px" border={1} alt="avatar"/>
                 </div>
-                <div className="col-10">
+                <div className="ms-5">
                     <div className="row">
                         {publicProfile && <div
                             className="h2 p-1 pb-2">{publicProfile.displayName}</div>}
                         {publicProfile.userType &&
                          <div className="h4 p-1">
-                             <label className="col-1">User Type: </label>
-                             <span className="col-11 fst-italic fw-semibold">{publicProfile.userType}</span>
+                             <label className="col-2">User Type: </label>
+                             <span className="col-10 fst-italic fw-semibold">{publicProfile.userType}</span>
                          </div>
                         }
                         {publicProfile.email &&
                          <div className="h4 p-1">
-                             <label className="col-1">Email: </label>
-                             <span className="col-11 fst-italic fw-semibold">{publicProfile.email}</span>
+                             <label className="col-2">Email: </label>
+                             <span className="col-10 fst-italic fw-semibold">{publicProfile.email}</span>
                          </div>
                         }
                         {publicProfile.location &&
                          <div className="h4 p-1">
-                             <label className="col-1">Location: </label>
-                             <span className="col-11 fst-italic fw-semibold">{publicProfile.location}</span>
+                             <label className="col-2">Location: </label>
+                             <span className="col-10 fst-italic fw-semibold">{publicProfile.location}</span>
                          </div>
                         }
                     </div>

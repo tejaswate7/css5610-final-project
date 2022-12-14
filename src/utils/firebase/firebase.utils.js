@@ -216,8 +216,8 @@ export const signOutUser = async () => await signOut(auth)
 
 export const onAuthStateChangedListner =  (callback) =>  onAuthStateChanged(auth, callback);
 
-export const updateUserProfile = async (userToBeEdited, updates) => {
-    const docRef = doc(db, "users", userToBeEdited);
+export const updateUserProfile = async (user, updates) => {
+    const docRef = doc(db, "users", user);
     await updateDoc(docRef, updates);
 }
 
