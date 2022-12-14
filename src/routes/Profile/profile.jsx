@@ -1,30 +1,22 @@
-import { Row, Col, Form, Button } from 'react-bootstrap'
 import {useEffect, useState} from "react";
-import {collection, getDocs, doc, deleteDoc, onSnapshot, getDoc, query, where} from "firebase/firestore"
-import {db, upload} from "../../utils/firebase/firebase.utils";
+import {collection, onSnapshot, query, where} from "firebase/firestore"
+import {db, updateUserProfile, upload} from "../../utils/firebase/firebase.utils";
 import {useDispatch, useSelector} from "react-redux";
-import { Icon } from 'react-icons-kit'
-import {edit2} from 'react-icons-kit/feather/edit2'
 import "./profile.styles.scss"
-import {findCocktailByIdThunk, findCocktailBySearchTermThunk} from "../../thunks/cocktail-thunk";
-import {setDisplayName, setUser} from "../../reducers/user/user.reducer";
-import {useParams} from "react-router-dom";
 import ProfileCommentItem from "./profile-commentitem";
 
-const Profile = ({ editabilityStatus }) => {
+const Profile = () => {
 
-    const { currentUser, displayName, userType } = useSelector((state) => state.user)
-    const dispatch = useDispatch();
+    const { currentUser, displayName, userType, location, contact } = useSelector((state) => state.user)
     const [edit, setEdit] = useState(false)
     const [ name, setName ] = useState(displayName)
     const [ email, setEmail ] = useState('')
     const [ usrType, setUsrType] = useState(userType)
-    const [location, setLocation] = useState('')
-    const [contact, setContact] = useState('')
+    const [loc, setLocation] = useState(location)
+    const [phone, setContact] = useState(contact)
     const [loading, setLoading] = useState(false)
     const [photo, setPhoto] = useState(null)
     const [photoURL, setPhotoURL] = useState("https://iscast.org/wp-content/uploads/2016/12/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpeg")
-
     let [allReview, setAllReviews] = useState([])
     //const q = query(collection(db, "comments"));
     const q = query(collection(db, "comments"), where("userId", "==", currentUser.uid));
@@ -59,43 +51,73 @@ const Profile = ({ editabilityStatus }) => {
     }
 
     const handleUpdate = () => {
+        setLocation(loc)
+        setContact(phone)
+        updateUserProfile(currentUser.uid,{updatedAt:new Date(), location: loc, contact: phone})
         setEdit(false)
     }
 
     return (
         <div className="profile-container">
             <div className="float-end">
-                {!edit && <button className="btn-outline-info" onClick={handleEdit}>Edit Details</button>}
-                {edit && <button className="btn-outline-info" onClick={handleUpdate}>Update Details</button>}
+                {!edit &&
+                 <button className="btn btn-primary d-none d-lg-block" onClick={handleEdit}>
+                     <i className=" bi bi-pencil-fill me-2"></i>
+                     Edit Details
+                </button>
+                }
+                {edit && <button className="btn btn-primary d-none d-lg-block" onClick={handleUpdate}>
+                    <i className="bi bi-save me-2"></i>
+                    Update Details
+                </button>}
             </div>
-            <div className="row">
-                <div className="col-2">
+            <div className="d-flex flex-row">
+                <div className="position-relative">
                     <img src={photoURL}
                          width="300px" height="300px" border={1} alt="avatar"/>
-                    {/*<input type="file" onChange={handleChange}/>*/}
-                    {/*<button disabled={loading || !photo} onClick={handleClick}>Upload</button>*/}
+                    {/*<input type="file" className="position-absolute start-0" onChange={handleChange}/>*/}
+                    {/*<button className="btn btn-secondary position-absolute bottom-0 end-0" disabled={loading || !photo} onClick={handleClick}>*/}
+                    {/*    Upload*/}
+                    {/*</button>*/}
                 </div>
-                <div className="col-10">
+                <div className="ms-5">
                     <div className="row">
-                        <div className="h2 p-1 pb-2">{name}</div>
-                        <div className="h4 p-1">
-                            <label className="col-1">User Type: </label>
-                            <span className="col-11 fst-italic fw-semibold">{usrType}</span>
+                        <div className="h2 p-1 pb-2">
+                            {name}
                         </div>
                         <div className="h4 p-1">
-                            <label className="col-1">Email: </label>
-                            {edit && <input type="text" className="col-11" placeholder="email" value={email}></input>}
-                            {!edit && <span className="col-11 fst-italic fw-semibold">{email}</span>}
+                            <label className="col-2 d-inline-block">User Type: </label>
+                            <span className="col-10 d-inline-block fst-italic fw-semibold">
+                                {usrType}
+                                <i className="bi bi-globe2 ms-2 fs-6" rel="tooltip" title="Public"></i>
+                            </span>
                         </div>
                         <div className="h4 p-1">
-                            <label className="col-1">Location: </label>
-                            {edit && <input type="text" className="col-11" placeholder="city/country" value={location}></input>}
-                            {!edit && <span className="col-11 fst-italic fw-semibold">{location}</span>}
+                            <label className="col-2">Email: </label>
+                            <span className="col-10 d-inline-block fst-italic fw-semibold">
+                                {email}
+                                <i className="bi bi-globe2 ms-2 fs-6" rel="tooltip" title="Public"></i>
+                            </span>
                         </div>
                         <div className="h4 p-1">
-                            <label className="col-1">Phone: </label>
-                            {edit && <input type="text" className="col-11" placeholder="+1 xxx xxx xxxx" value={contact}></input>}
-                            {!edit && <span className="col-11 fst-italic fw-semibold">{contact}</span>}
+                            <label className="col-2">Location: </label>
+                            {edit &&
+                             <input type="text" className="col-10" placeholder="city/country" value={loc}
+                                            onChange={(event) => setLocation(event.target.value)}>
+                            </input>}
+                            {!edit && <span className="col-10 fst-italic fw-semibold">
+                                {loc}
+                                <i className="bi bi-globe2 ms-2 fs-6" rel="tooltip" title="Public"></i>
+                            </span>}
+                        </div>
+                        <div className="h4 p-1">
+                            <label className="col-2">Phone: </label>
+                            {edit && <input type="text" className="col-10" placeholder="+1 xxx xxx xxxx" value={phone}
+                                            onChange={(event) => setContact(event.target.value)}></input>}
+                            {!edit && <span className="col-10 fst-italic fw-semibold">
+                                {phone}
+                                <i className="bi bi-file-lock ms-2 fs-6" rel="tooltip" title="Private"></i>
+                            </span>}
                         </div>
                     </div>
                 </div>

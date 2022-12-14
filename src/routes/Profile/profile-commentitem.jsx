@@ -31,19 +31,6 @@ const ProfileCommentItem = ({comment}) => {
     }, [])
 
     return(
-        // <div>
-        //     {
-        //         comment.userName ?
-        //         (<div className="row wd-border-color-grey pt-2">
-        //             <div className="col-12">
-        //                 { currentUser && currentUser.uid === comment.userId &&
-        //                   <i className="bi bi-x-lg float-end"
-        //                      onClick={() => deleteCommentHandler()}></i>}
-        //                 <p style={{"fontSize": "15px"}} dangerouslySetInnerHTML={{__html: comment.comment}}></p>
-        //                 <p style={{"fontSize": "12px"}}><i>by <Link to={`/profile/${comment.userId}`}><strong>{comment.userName}</strong></Link><strong> at {time}</strong></i></p>
-        //             </div>
-        //         </div>) : (<h2>None</h2>)}
-        // </div>
         <li className="list-group-item">
             <div>
                 <Restaurant key={comment.rid} rid={comment.rid} restaurants={restaurants}/>
@@ -65,27 +52,3 @@ const ProfileCommentItem = ({comment}) => {
 }
 
 export default ProfileCommentItem;
-
-// <li className="list-group-item">
-//     <div className="row">
-//         <div className="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 col-xxl-1">
-//             <img className="rounded-circle" src={`/tuiter/images/${tuit.profilepic}`}
-//                  alt="Profile of account holder" height="50px" width="50px"/>
-//         </div>
-//         <div className="col-11 col-sm-11 col-md-11 col-lg-11 col-xl-11 col-xxl-11">
-//             <div className="fw-bolder ps-2">
-//                 {tuit.userName}
-//                 <i className="fas fa-check-circle"></i>
-//                 <span
-//                     className="text-secondary fw-lighter"> {tuit.handle} - {tuit.time}
-//                         </span>
-//                 <i className="bi bi-x-lg float-end"
-//                    onClick={() => deleteTuitHandler(tuit._id)}></i>
-//             </div>
-//             <div className="fw-light ps-2">
-//                 {tuit.text}
-//             </div>
-//             <TuitStats tuitdata={tuit}/>
-//         </div>
-//     </div>
-// </li>
