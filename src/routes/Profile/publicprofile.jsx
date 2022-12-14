@@ -43,19 +43,19 @@ const PublicProfile = () => {
                             className="h2 p-1 pb-2">{publicProfile.displayName}</div>}
                         {publicProfile.userType &&
                          <div className="h4 p-1">
-                             <label className="col-2">User Type: </label>
-                             <span className="col-10 fst-italic fw-semibold">{publicProfile.userType}</span>
+                             <label className="col-2 d-inline-block" style={{"min-width":"150px"}}>User Type: </label>
+                             <span className="col fst-italic fw-semibold">{publicProfile.userType}</span>
                          </div>
                         }
-                        {publicProfile.email &&
-                         <div className="h4 p-1">
-                             <label className="col-2">Email: </label>
-                             <span className="col-10 fst-italic fw-semibold">{publicProfile.email}</span>
-                         </div>
-                        }
+                        {/*{publicProfile.email &&*/}
+                        {/* <div className="h4 p-1">*/}
+                        {/*     <label className="col-2">Email: </label>*/}
+                        {/*     <label className="col-10 fst-italic fw-semibold ">{publicProfile.email}</label>*/}
+                        {/* </div>*/}
+                        {/*}*/}
                         {publicProfile.location &&
                          <div className="h4 p-1">
-                             <label className="col-2">Location: </label>
+                             <label className="col-2" style={{"min-width":"150px"}}>Location: </label>
                              <span className="col-10 fst-italic fw-semibold">{publicProfile.location}</span>
                          </div>
                         }
@@ -64,7 +64,7 @@ const PublicProfile = () => {
             </div>}
             <hr className="border border-light border-2 opacity-75"/>
             <div className="row">
-                <div>My Reviews</div>
+                <div className="text-black fw-bolder ms-2 mb-1" style={{"fontSize": "25px"}}>My Reviews</div>
             </div>
             <ul className="list-group">
                 {
