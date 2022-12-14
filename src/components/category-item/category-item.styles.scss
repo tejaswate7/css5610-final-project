@@ -42,9 +42,9 @@
   }
 
   .category-body-container {
+    height: min-content;
     margin-top: 150px;
     width: 30.5%;
-    height: 90px;
     padding: 0 25px;
     display: flex;
     flex-direction: column;
