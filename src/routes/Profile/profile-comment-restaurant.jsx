@@ -7,7 +7,7 @@ const Restaurant = ({rid, restaurants}) => {
                 {restaurants.filter(curr_rest => curr_rest.id === rid).map(filteredPerson => (
                     <div>
                         {filteredPerson.title}
-                        <img src={filteredPerson.imageUrl} className="float-start me-4" height="100px" width="100px"/>
+                        <img src={filteredPerson.imageUrl} className="float-start me-4 rounded-2" height="100px" width="100px"/>
                     </div>
 
                 ))}

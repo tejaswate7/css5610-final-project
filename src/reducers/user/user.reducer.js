@@ -5,6 +5,8 @@ const INITIAL_STATE = {
     currentUser: null, // object retrieved from auth
     displayName: null,
     userType:null,
+    location: null,
+    contact: null,
     publicProfile: null
 }
 
@@ -14,15 +16,18 @@ const userSlice = createSlice({
     reducers: {
         setUser(state, action){
             state.currentUser = action.payload
-            // console.log("Logging SetUser action", action)
         },
         setDisplayName(state, action){
             state.displayName = action.payload
-            // console.log("Logging setDisplayName action", action)
         },
         setUserType(state, action){
             state.userType = action.payload
-            // console.log("Logging setUserType action", action)
+        },
+        setUserLocation(state, action){
+            state.location = action.payload
+        },
+        setUserContact(state, action){
+            state.contact = action.payload
         }
     },
     extraReducers: {
@@ -33,5 +38,5 @@ const userSlice = createSlice({
 
 })
 
-export const { setUser, setDisplayName, setUserType} = userSlice.actions;
+export const { setUser, setDisplayName, setUserType, setUserLocation, setUserContact} = userSlice.actions;
 export default userSlice.reducer;

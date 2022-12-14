@@ -5,7 +5,8 @@ import {Link} from "react-router-dom";
 
 const CommentItem = (
     {
-        comment
+        comment,
+        canDelete = true
     }) => {
     const {currentUser} = useSelector((state) => state.user)
     const deleteCommentHandler = async () => {
@@ -28,7 +29,7 @@ const CommentItem = (
     comment.userName ?
         (<div className="row wd-border-color-grey pt-2">
         <div className="col-12">
-            { currentUser && currentUser.uid === comment.userId &&
+            { currentUser && currentUser.uid === comment.userId && canDelete &&
             <i className="bi bi-x-lg float-end"
                onClick={() => deleteCommentHandler()}></i>}
             <p style={{"fontSize": "15px"}} dangerouslySetInnerHTML={{__html: comment.comment}}></p>
