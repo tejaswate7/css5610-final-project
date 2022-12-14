@@ -1,4 +1,3 @@
-import { USER_ACTION_TYPES } from "./user.types";
 import {createSlice} from "@reduxjs/toolkit";
 import {findUserByIdThunk} from "../../thunks/userthunk";
 

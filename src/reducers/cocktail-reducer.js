@@ -6,8 +6,10 @@ import {
     findCocktailBySearchTermThunk
 } from "../thunks/cocktail-thunk";
 import { enableMapSet } from 'immer';
+import {findCocktailBySearchTerm} from "../services/cocktail/cocktail-service";
 
 enableMapSet();
+
 
 const initialState = {
     cocktails: [],

@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import {addCollectionAndDocuments, db, getCollectionsAndDocuments} from "../../utils/firebase/firebase.utils";
 import RESTAURANT_DATA from "../../restaurant-data";
 import {useDispatch, useSelector} from "react-redux";
-import {getRestaurants} from "../../store/restaurants/restaurant.reducer";
 import {collection, onSnapshot, query, where, orderBy, limit, getDocs} from "firebase/firestore";
 import CommentItem from "../comments/comment.component";
 import {
@@ -16,6 +15,7 @@ import {
 import {findRenderedDOMComponentWithClass} from "react-dom/test-utils";
 import {Link} from "react-router-dom";
 import {setCocktailsFeedMap, setLatestCocktailsMap} from '../../reducers/cocktail-reducer'
+import {getRestaurants} from "../../reducers/restaurants/restaurant.reducer";
 
 
 const Home = () => {
@@ -135,6 +135,7 @@ const Home = () => {
             {/*{*/}
             {/*    restaurants.length > 0 ? (<Directory categories={categories}/>) : (<div>nothing to display</div>)*/}
             {/*}*/}
+            <h2 className="text-center">Taverns</h2>
             <Directory categories={rest}/>
             {
                 currentUser && reviewFeed.length !==0 &&

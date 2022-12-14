@@ -9,8 +9,8 @@ import { BrowserRouter } from 'react-router-dom'
 import {Provider} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
 import cocktailReducer from "./reducers/cocktail-reducer";
-import userReducer from "./store/user/user.reducer";
-import restaurantReducer from "./store/restaurants/restaurant.reducer";
+import userReducer from "./reducers/user/user.reducer";
+import restaurantReducer from "./reducers/restaurants/restaurant.reducer";
 
 
 const store = configureStore(
