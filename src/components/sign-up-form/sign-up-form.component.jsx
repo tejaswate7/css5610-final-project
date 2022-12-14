@@ -7,10 +7,8 @@ import {
 import FormInput from "../form-input/form-input.component";
 
 import "./sign-up-form.styles.scss"
-import Button from "../button/button.component";
 import {useDispatch, useSelector} from "react-redux";
-import {setUser} from "../../store/user/user.reducer";
-import {setCurrentUser} from "../../store/user/user.action";
+import {setUser} from "../../reducers/user/user.reducer";
 import {useNavigate} from "react-router-dom";
 import FormDropdownInput from "../form-dropdown-input/form-dropdown-input.component";
 
@@ -86,7 +84,7 @@ const SignUpForm = () => {
                 <FormInput label="Password" type="password" required onChange={handleChange} name="password" value={password}/>
                 <FormInput label="Confirm Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword}/>
 
-                <Button type="submit">Sign Up</Button>
+                <button type="submit" className="btn btn-primary">Sign Up</button>
             </form>
         </div>
     );
